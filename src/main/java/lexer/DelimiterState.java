@@ -3,21 +3,15 @@ package lexer;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DelimiterState implements DetectorState{
+public class DelimiterState implements LexerState {
 
-    private TokenOutput output;
-
-    private InputStream input;
-
-    private DetectorState state;
+    private LexerState state; // The space state to return to.
 
     // This should define a token type for the character (it is currently a string, but it will most likely change).
     private Map<Character, String> mapping;
 
-    public DelimiterState(TokenOutput output, DetectorState state, InputStream input) {
-        this.output = output;
+    public DelimiterState(LexerState state) {
         this.state = state;
-        this.input = input;
 
         this.mapping = new HashMap<>();
         // Initialization
@@ -34,14 +28,16 @@ public class DelimiterState implements DetectorState{
     }
 
     @Override
-    public DetectorState processCharacter() {
+    public StateResponse processCharacter(char character) {
 
-        char character = this.input.peek();
         // The character received will always be converted to a token and consumed.
 
-        this.output.writeToken(new TypeScriptToken(String.valueOf(character), this.mapping.get(character)));
-        this.input.consume();
+        Token newToken = new TypeScriptToken(String.valueOf(character), this.mapping.get(character));
+        return new TypeScriptStateResponse(this.state, true, newToken);
+    }
 
-        return this.state;
+    @Override
+    public void reset() {
+        // No need to reset anything.
     }
 }

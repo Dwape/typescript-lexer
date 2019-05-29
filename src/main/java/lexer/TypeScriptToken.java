@@ -4,7 +4,7 @@ public class TypeScriptToken implements Token{
 
     private String content;
 
-    private String type;
+    private String type; // Type would probably be more useful as an enum
 
     public TypeScriptToken(String content, String type){
         this.content = content;

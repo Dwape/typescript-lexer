@@ -9,9 +9,9 @@ public class App {
     }
 
     public static void main(String[] args) {
-        Detector detector = new TokenDetector();
+        Lexer lexer = new TokenLexer();
         InputStream stream = new TextStream("let name;let=troo\n    true;");
-        TokenOutput output = detector.detect(stream);
+        TokenOutput output = lexer.lex(stream);
 
         System.out.println("why did it fail?");
     }

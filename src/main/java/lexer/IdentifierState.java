@@ -3,15 +3,11 @@ package lexer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IdentifierState implements DetectorState {
-
-    private TokenOutput output;
-
-    private InputStream input;
+public class IdentifierState implements LexerState {
 
     private String buffer; // Check if this way of doing this is very inefficient.
 
-    // private Map<CharacterChecker, DetectorState> transitions; // Is this a good way of doing this?
+    // private Map<CharacterChecker, LexerState> transitions; // Is this a good way of doing this?
     // The above code is unnecessary to be honest, we need only two transitions.
 
     private CharacterChecker allowedChecker; // Are this going to be settable in the constructor?
@@ -20,16 +16,14 @@ public class IdentifierState implements DetectorState {
 
     private KeywordChecker keywordChecker;
 
-    private DetectorState state;
+    private LexerState state;
 
-    public IdentifierState(TokenOutput output, DetectorState state, InputStream input) {
-        this.output = output;
+    public IdentifierState(LexerState state) {
         // How do we know if we are the first character?
         // What a good question
         this.allowedChecker = new OneCharacterRegex("[0-9a-zA-Z]");
         this.delimiterChecker = new OneCharacterRegex(";| |:|(|)|\n"); // Should this regex be provided by someone else?
         this.state = state;
-        this.input = input;
         List<String> list = new ArrayList<>();
         // This should be defined somewhere else, of course.
         list.add("let");
@@ -41,9 +35,8 @@ public class IdentifierState implements DetectorState {
     }
 
     // States could return the next state after what they have processed.
-    public DetectorState processCharacter() {
-
-        char character = this.input.peek();
+    @Override
+    public StateResponse processCharacter(char character) {
 
         // If it is the first character, we have a different check
         // What is a good way to express this?
@@ -56,26 +49,31 @@ public class IdentifierState implements DetectorState {
         // Next character is part of identifier
         if (allowedChecker.check(character)) {
             this.buffer += character;
-            this.input.consume();
-            return this;
+            return new TypeScriptStateResponse(this, true);
         }
 
         // The token we used does not need to be processed, we should someone tell that to the caller
         // This is important for this to work correctly.
         if (delimiterChecker.check(character)) {
 
+            Token newToken;
             if (keywordChecker.check(this.buffer)) {
                 // Create a keyword token
-                this.output.writeToken(new TypeScriptToken(this.buffer, "keyword"));
+                newToken = new TypeScriptToken(this.buffer, "keyword");
             } else {
-                this.output.writeToken(new TypeScriptToken(this.buffer, "identifier"));
+                newToken = new TypeScriptToken(this.buffer, "identifier");
             }
             // How should it be done?
             this.buffer = ""; // We need to clear the buffer.
-            return this.state;
+            return new TypeScriptStateResponse(this.state, false, newToken);
         }
 
         // Otherwise there was an error, the input was invalid, so we throw an exception.
         throw new InvalidInputException();
+    }
+
+    @Override
+    public void reset() {
+        this.buffer = ""; // Reset the buffer.
     }
 }

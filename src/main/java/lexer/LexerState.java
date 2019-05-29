@@ -1,8 +1,10 @@
 package lexer;
 
 // This may require a refactor in the future, if I come up with a better name.
-public interface DetectorState {
+public interface LexerState {
 
     // Processes a character and acts accordingly.
-    DetectorState processCharacter();
+    StateResponse processCharacter(char character);
+
+    void reset();
 }
