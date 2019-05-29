@@ -48,7 +48,7 @@ public class IdentifierState implements LexerState {
 
         // Next character is part of identifier
         if (allowedChecker.check(character)) {
-            this.buffer += character;
+            this.buffer += character; // Is this a good way of doing this?
             return new TypeScriptStateResponse(this, true);
         }
 
@@ -64,7 +64,7 @@ public class IdentifierState implements LexerState {
                 newToken = new TypeScriptToken(this.buffer, "identifier");
             }
             // How should it be done?
-            this.buffer = ""; // We need to clear the buffer.
+            reset(); // We need to reset the state.
             return new TypeScriptStateResponse(this.state, false, newToken);
         }
 

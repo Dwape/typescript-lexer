@@ -10,7 +10,7 @@ public class App {
 
     public static void main(String[] args) {
         Lexer lexer = new TokenLexer();
-        InputStream stream = new TextStream("let name;let=troo\n    true;");
+        InputStream stream = new TextStream("let name;let=troo\n    'asdf6236&\"\"4$#..\"436';");
         TokenOutput output = lexer.lex(stream);
 
         System.out.println("why did it fail?");

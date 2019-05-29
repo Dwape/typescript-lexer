@@ -33,6 +33,7 @@ public class DelimiterState implements LexerState {
         // The character received will always be converted to a token and consumed.
 
         Token newToken = new TypeScriptToken(String.valueOf(character), this.mapping.get(character));
+        // reset(); // we should reset here if there was anything to reset.
         return new TypeScriptStateResponse(this.state, true, newToken);
     }
 
