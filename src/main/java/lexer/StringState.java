@@ -27,7 +27,7 @@ public class StringState implements LexerState{
 
         if (endChecker.check(character)) {
             buffer += character;
-            Token newToken = new TypeScriptToken(buffer, "string"); // Or literal, maybe.
+            Token newToken = new TypeScriptToken(buffer, TokenType.STRING); // Or literal, maybe.
             reset(); // We should reset for next time we are called.
             return new TypeScriptStateResponse(state, true, newToken);
         }

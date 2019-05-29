@@ -1,8 +1,5 @@
 package lexer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class IdentifierState implements LexerState {
 
     private String buffer; // Check if this way of doing this is very inefficient.
@@ -53,9 +50,9 @@ public class IdentifierState implements LexerState {
             Token newToken;
             if (keywordChecker.check(this.buffer)) {
                 // Create a keyword token
-                newToken = new TypeScriptToken(this.buffer, "keyword");
+                newToken = new TypeScriptToken(this.buffer, TokenType.KEYWORD);
             } else {
-                newToken = new TypeScriptToken(this.buffer, "identifier");
+                newToken = new TypeScriptToken(this.buffer, TokenType.IDENTIFIER);
             }
             // How should it be done?
             reset(); // We need to reset the state.

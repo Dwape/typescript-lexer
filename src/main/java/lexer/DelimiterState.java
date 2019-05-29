@@ -10,7 +10,7 @@ public class DelimiterState implements LexerState {
     private LexerState state; // The space state to return to.
 
     // This should define a token type for the character (it is currently a string, but it will most likely change).
-    private Map<Character, String> mapping;
+    private Map<Character, TokenType> mapping;
 
     public DelimiterState(LexerState state) {
         this.state = state;
@@ -18,14 +18,15 @@ public class DelimiterState implements LexerState {
         this.mapping = new HashMap<>();
         // Initialization
         // These could probably be defined somewhere else, I guess.
-        this.mapping.put('+', "plus");
-        this.mapping.put('-', "minus");
-        this.mapping.put('/', "divided");
-        this.mapping.put('(', "left_parenthesis");
-        this.mapping.put(')', "right_parenthesis");
-        this.mapping.put('=', "equals");
-        this.mapping.put(';', "colon");
-        this.mapping.put(':', "semi-colon");
+        this.mapping.put('+', TokenType.PLUS);
+        this.mapping.put('-', TokenType.MINUS);
+        this.mapping.put('*', TokenType.MULTIPLICATION);
+        this.mapping.put('/', TokenType.DIVISION);
+        this.mapping.put('(', TokenType.LEFT_PARENTHESIS);
+        this.mapping.put(')', TokenType.RIGHT_PARENTHESIS);
+        this.mapping.put('=', TokenType.EQUALS);
+        this.mapping.put(';', TokenType.SEMI_COLON);
+        this.mapping.put(':', TokenType.COLON);
         // I think no symbol is missing.
     }
 

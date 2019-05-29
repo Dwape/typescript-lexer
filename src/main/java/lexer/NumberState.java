@@ -52,7 +52,7 @@ public class NumberState implements LexerState{
                 throw new InvalidInputException();
             }
             // The number is valid
-            Token newToken = new TypeScriptToken(buffer, "number");
+            Token newToken = new TypeScriptToken(buffer, TokenType.NUMBER);
             reset();
             return new TypeScriptStateResponse(state, false, newToken);
         }

@@ -4,5 +4,5 @@ public interface Token {
 
     public String getContent();
 
-    public String getType();
+    public TokenType getType();
 }
