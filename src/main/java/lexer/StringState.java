@@ -21,18 +21,17 @@ public class StringState implements LexerState{
             // Using the first character has an advantage
             // If we change which characters start a string, this should automatically work.
             endChecker = new OneCharacterRegex(String.valueOf(character)); // This may not work.
-            buffer += character; // Do we want to keep the "? Easy to change.
             return new TypeScriptStateResponse(this, true);
         }
 
+        // We don't want to have the " or ' as part of the string as it is unnecessary.
         if (endChecker.check(character)) {
-            buffer += character;
             Token newToken = new TypeScriptToken(buffer, TokenType.STRING); // Or literal, maybe.
             reset(); // We should reset for next time we are called.
             return new TypeScriptStateResponse(state, true, newToken);
         }
 
-        // Any other character will ba allowed in the string.
+        // Any other character will be allowed in the string.
         buffer += character;
         return new TypeScriptStateResponse(this, true);
     }

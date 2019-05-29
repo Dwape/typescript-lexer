@@ -10,8 +10,8 @@ public class App {
 
     public static void main(String[] args) {
         Lexer lexer = new TokenLexer();
-        //InputStream stream = new TextStream("let name;let=troo\n    'asdf6236&\"\"4$#..\"436';");
-        InputStream stream = new TextStream("let pepe: string = \"hola\";\nlet pepito: number;\npepito=5.5-8;\nprint(pepito+pepe+\"mundo\");");
+        InputStream stream = new TextStream("let name;let=troo\n    'asdf62\n36&\"\"4$#\n\n..\"436';");
+        //InputStream stream = new TextStream("let pepe: string = \"hola\";\nlet pepito: number;\npepito=5.5-8;\nprint(pepito+pepe+\"mundo\");");
         TokenOutput output = lexer.lex(stream);
 
         System.out.println("why did it fail?");
