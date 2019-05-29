@@ -12,7 +12,12 @@ public class App {
         Lexer lexer = new TokenLexer();
         InputStream stream = new TextStream("let name;let=troo\n    'asdf62\n36&\"\"4$#\n\n..\"436';");
         //InputStream stream = new TextStream("let pepe: string = \"hola\";\nlet pepito: number;\npepito=5.5-8;\nprint(pepito+pepe+\"mundo\");");
-        TokenOutput output = lexer.lex(stream);
+        TokenStream output = lexer.lex(stream);
+
+        while (output.hasNext()) {
+            System.out.println(output.peek());
+            output.consume();
+        }
 
         System.out.println("why did it fail?");
     }

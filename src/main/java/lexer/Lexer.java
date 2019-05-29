@@ -2,5 +2,5 @@ package lexer;
 
 public interface Lexer {
 
-    public TokenOutput lex(InputStream stream);
+    public TokenStream lex(InputStream stream);
 }

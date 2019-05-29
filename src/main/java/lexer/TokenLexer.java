@@ -1,5 +1,8 @@
 package lexer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TokenLexer implements Lexer {
 
     private LexerState state;
@@ -18,8 +21,8 @@ public class TokenLexer implements Lexer {
     // Where should the token output be taken from? They all need to have the same instance.
 
     // This should probably all change, it is a first attempt to get a general idea of how it would work.
-    public TokenOutput lex(InputStream stream) {
-        TokenOutput output = new TypeScriptTokenOutput();
+    public TokenStream lex(InputStream stream) {
+        List<Token> tokens = new ArrayList<>();
 
         // All this behavior should most likely be done somewhere else.
         // Try to move it somewhere else
@@ -40,13 +43,13 @@ public class TokenLexer implements Lexer {
             if (response.hasToken()) {
                 Token token = response.getToken();
                 locator.addLocation(token); // Is this okay?
-                output.writeToken(token);
+                tokens.add(token); // Add the token,
             }
 
             state = response.getNextState();
         }
         state.reset(); // Reset the state if it had any info in the buffer.
         state = initialState; // Reset the state for next input.
-        return output;
+        return new TypeScriptTokenStream(tokens);
     }
 }

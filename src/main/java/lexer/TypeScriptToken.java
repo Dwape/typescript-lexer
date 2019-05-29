@@ -31,4 +31,9 @@ public class TypeScriptToken implements Token{
     public TokenPosition getPosition() {
         return position;
     }
+
+    // Only for visualization, remove
+    public String toString() {
+        return "<" + type.toString() + ":" + content + "(" + position.getLine() + "," + position.getCharStart() + ")>";
+    }
 }
