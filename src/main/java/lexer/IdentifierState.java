@@ -24,13 +24,7 @@ public class IdentifierState implements LexerState {
         this.allowedChecker = new OneCharacterRegex("[0-9a-zA-Z]");
         this.delimiterChecker = new OneCharacterRegex(" |\n|;|:|\\(|\\)|=|\\+|-|\\*|\\/"); // Should this regex be provided by someone else?
         this.state = state;
-        List<String> list = new ArrayList<>();
-        // This should be defined somewhere else, of course.
-        list.add("let");
-        list.add("string");
-        list.add("number");
-        list.add("print");
-        this.keywordChecker = new KeywordChecker(list);
+        this.keywordChecker = new KeywordChecker();
         this.buffer = ""; // If this really necessary?
     }
 

@@ -3,8 +3,7 @@ package lexer;
 import java.util.HashMap;
 import java.util.Map;
 
-// A state for the delimiter characters.
-// All delimiters will be single characters.
+// This State could have a better name, showing it is the main one, and the most important one.
 public class SpaceState implements LexerState {
 
     private CharacterChecker ignoreChecker;
@@ -15,6 +14,16 @@ public class SpaceState implements LexerState {
     public SpaceState() {
         this.transitions = new HashMap<>();
         this.ignoreChecker = new OneCharacterRegex(" |\n"); // Check if the regex is correct
+        // Create all the states.
+        LexerState identifierState = new IdentifierState(this);
+        LexerState delimiterState = new DelimiterState(this);
+        LexerState stringState = new StringState(this);
+        LexerState numberState = new NumberState(this);
+        // Add all the transitions to the other states.
+        addTransition(identifierState, new OneCharacterRegex("[a-zA-Z]")); // it must start with a letter.
+        addTransition(delimiterState, new OneCharacterRegex(";|:|\\(|\\)|=|\\+|-|\\*|\\/"));
+        addTransition(stringState, new OneCharacterRegex("\"|'"));
+        addTransition(numberState, new OneCharacterRegex("[0-9]|\\.")); // We accept .
     }
 
     public void addTransition(LexerState state, CharacterChecker checker) {
@@ -29,12 +38,6 @@ public class SpaceState implements LexerState {
         if (this.ignoreChecker.check(character)) {
             return new TypeScriptStateResponse(this, true);
         }
-        /*
-        if (character == ' ' || character == '\n') {
-            this.input.consume();
-            return this;
-        }
-        */
 
         // Check if there is any transition for the character
         // This is not a good way of doing it, find a better one.
@@ -51,5 +54,6 @@ public class SpaceState implements LexerState {
     @Override
     public void reset() {
         // We don't need to do anything here, as we save no values.
+        // Could reset all other states, but I think it is not necessary.
     }
 }

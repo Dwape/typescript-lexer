@@ -3,6 +3,8 @@ package lexer;
 import java.util.HashMap;
 import java.util.Map;
 
+// A state for the delimiter characters.
+// All delimiters will be single characters.
 public class DelimiterState implements LexerState {
 
     private LexerState state; // The space state to return to.

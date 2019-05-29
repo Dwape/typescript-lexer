@@ -18,17 +18,7 @@ public class TokenLexer implements Lexer {
     public TokenOutput lex(InputStream stream) {
         TokenOutput output = new TypeScriptTokenOutput();
         // These other states could be created in the initial state, easily.
-        LexerState identifierState = new IdentifierState(state);
-        LexerState delimiterState = new DelimiterState(state);
-        LexerState stringState = new StringState(state);
-        LexerState numberState = new NumberState(state);
 
-        // The regex should probably be defined somewhere else, but where?
-        // Who should create all the states and transitions?
-        ((SpaceState) state).addTransition(identifierState, new OneCharacterRegex("[a-zA-Z]")); // it must start with a letter.
-        ((SpaceState) state).addTransition(delimiterState, new OneCharacterRegex(";|:|\\(|\\)|=|\\+|-|\\*|\\/"));
-        ((SpaceState) state).addTransition(stringState, new OneCharacterRegex("\"|'"));
-        ((SpaceState) state).addTransition(numberState, new OneCharacterRegex("[0-9]|\\.")); // We accept .
         while(stream.hasNext()) {
             // Equal state to the next state, returned by process character
             StateResponse response = state.processCharacter(stream.peek());
