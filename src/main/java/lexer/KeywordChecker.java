@@ -1,23 +1,25 @@
 package lexer;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class KeywordChecker {
 
-    private List<String> keywords;
+    private Map<String, TokenType> keywords;
 
     public KeywordChecker(){
-        List<String> keywords = new ArrayList<>();
+        keywords = new HashMap<>();
         // This should be defined somewhere else, of course.
-        keywords.add("let");
-        keywords.add("string");
-        keywords.add("number");
-        keywords.add("print");
-        this.keywords = keywords;
+        keywords.put("let", TokenType.LET);
+        keywords.put("string", TokenType.STRING_TYPE);
+        keywords.put("number", TokenType.NUMBER_TYPE);
+        keywords.put("print", TokenType.PRINT);
     }
 
-    public boolean check(String identifier) {
-        return this.keywords.contains(identifier);
+    // We should return a token type.
+    // What happens when there is no token?
+    // We could improve how this works.
+    public TokenType check(String identifier) {
+        return this.keywords.get(identifier);
     }
 }

@@ -1,7 +1,10 @@
 package lexer;
 
 public enum TokenType {
-    KEYWORD,
+    LET,
+    PRINT,
+    STRING_TYPE,
+    NUMBER_TYPE,
     IDENTIFIER,
     STRING, // Could be called a string literal, but I don't see the need
     NUMBER, // Number literal?

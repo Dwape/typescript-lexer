@@ -48,9 +48,12 @@ public class IdentifierState implements LexerState {
         if (delimiterChecker.check(character)) {
 
             Token newToken;
-            if (keywordChecker.check(this.buffer)) {
+            // Check if the token is a key word.
+            TokenType type = keywordChecker.check(this.buffer);
+            if (type != null) {
                 // Create a keyword token
-                newToken = new TypeScriptToken(this.buffer, TokenType.KEYWORD);
+                // Keyword could be more specific to make the parser easier.
+                newToken = new TypeScriptToken(this.buffer, type);
             } else {
                 newToken = new TypeScriptToken(this.buffer, TokenType.IDENTIFIER);
             }
