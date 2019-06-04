@@ -26,20 +26,15 @@ public class DeclarationState implements ParserState {
 
         token = checkTwoTypes(stream, TokenType.NUMBER_TYPE, TokenType.STRING_TYPE);
 
-        TypeNode type;
-        if (token.getType() == TokenType.NUMBER_TYPE) {
-            type = new NumberTypeNode();
-        } else {
-            type = new StringTypeNode();
-        }
+        TypeNode type = createTypeNode(token);
 
         // Here two things can happen
         // We can have a declaration or if might end.
-        token = stream.peek();
-        if (token.getType() == TokenType.SEMI_COLON) { // Should it consume the semi-colon?
+        if (endOfElement(stream)) { // Should it consume the semi-colon?
             // We are done, return;
             return new DeclareNode(identifier, type);
         }
+
         checkTokenType(stream, TokenType.EQUALS);
 
         ExpressionNode node = expression.parse(stream);
@@ -67,5 +62,19 @@ public class DeclarationState implements ParserState {
         }
         stream.consume();
         return token;
+    }
+
+    private TypeNode createTypeNode(Token token) {
+        if (token.getType() == TokenType.NUMBER_TYPE)
+            return new NumberTypeNode();
+        if (token.getType() == TokenType.STRING_TYPE)
+            return new StringTypeNode();
+        throw new SyntaxErrorException(); // This shouldn't happen, but just in case.
+    }
+
+    private boolean endOfElement(TokenStream stream) {
+        Token token = stream.peek();
+        return token.getType() == TokenType.SEMI_COLON;
+
     }
 }

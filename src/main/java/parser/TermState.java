@@ -36,7 +36,7 @@ public class TermState implements ParserState{
         // Now for the case where there is already something in the buffer
         // There are two cases
 
-        // First case, the next token in the stream is  * or /
+        // First case, the next token in the stream is * or /
         // This could probably be its own method (if we wanted to make it nicer).
         Token token = stream.peek();
         if (token.getType() == TokenType.MULTIPLICATION) {

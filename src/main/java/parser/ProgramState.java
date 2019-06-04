@@ -35,24 +35,16 @@ public class ProgramState implements ParserState {
             return result;
         }
         // We still have to continue, but we are close now.
+        StatementNode node;
         Token token = stream.peek();
-        if (token.getType() == TokenType.PRINT) {
-            StatementNode node = print.parse(stream);
-            buffer.addStatement(node);
-            return parse(stream);
-        }
-        if (token.getType() == TokenType.LET) {
-            StatementNode node = declaration.parse(stream);
-            buffer.addStatement(node);
-            return parse(stream);
-        }
-        if (token.getType() == TokenType.IDENTIFIER) {
-            StatementNode node = assignment.parse(stream);
-            buffer.addStatement(node);
-            return parse(stream);
-        }
-        // All statement options have been considered above
-        throw new SyntaxErrorException();
+
+        if (token.getType() == TokenType.PRINT) node = print.parse(stream);
+        else if (token.getType() == TokenType.LET) node = declaration.parse(stream);
+        else if (token.getType() == TokenType.IDENTIFIER) node = assignment.parse(stream);
+        else throw new SyntaxErrorException();
+
+        buffer.addStatement(node);
+        return parse(stream);
     }
 
     private void reset() {
