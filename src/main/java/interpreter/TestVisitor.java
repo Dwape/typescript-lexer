@@ -17,7 +17,9 @@ public class TestVisitor implements NodeVisitor {
 
     // Some variable with a value and a type, right?
     // Let's try if it works with Strings to begin with.
-    private Stack<String> magicStack; // Change this name
+
+    // Using variables could be better
+    private Stack<Variable> magicStack; // Change this name
     private Map<String, Variable> context; // This holds all the variables.
 
     public TestVisitor() {
@@ -33,11 +35,19 @@ public class TestVisitor implements NodeVisitor {
     public void visitAdditionNode(AdditionNode node) {
         node.getRight().visit(this);
         node.getLeft().visit(this);
-        String value1 = magicStack.pop();
-        String value2 = magicStack.pop();
+        Variable value1 = magicStack.pop();
+        Variable value2 = magicStack.pop();
         // We have to consider concatenation here
         // But we still don't have types.
-        magicStack.push(Double.toString(Double.parseDouble(value1)+Double.parseDouble(value2)));
+        if (value1.getType().equals("string") || value2.getType().equals("string")) {
+            // If this happens, then we have a string concatenation
+            Variable newVariable = new Variable(value1.getValue() + value2.getValue(), "number");
+            magicStack.push(newVariable);
+        } else {
+            String value = Double.toString(Double.parseDouble(value1.getValue())+Double.parseDouble(value2.getValue()));
+            Variable newVariable = new Variable(value, "number");
+            magicStack.push(newVariable);
+        }
     }
 
     @Override
@@ -49,7 +59,7 @@ public class TestVisitor implements NodeVisitor {
             // throw an exception
         }
         // We need to check types here.
-        variable = new Variable(magicStack.pop(), variable.getType());
+        variable = new Variable(magicStack.pop().getValue(), variable.getType());
         context.put(name, variable);
     }
 
@@ -57,7 +67,7 @@ public class TestVisitor implements NodeVisitor {
     public void visitDeclareAssignNode(DeclareAssignNode node) {
         node.getExpression().visit(this);
         String name = node.getIdentifier().getName();
-        String value = magicStack.pop();
+        String value = magicStack.pop().getValue();
         Variable variable = new Variable(value, node.getType());
         context.put(name, variable);
     }
@@ -66,7 +76,7 @@ public class TestVisitor implements NodeVisitor {
     public void visitDeclareNode(DeclareNode node) {
         // We are creating a variable without a value, how should this work?
         String name = node.getIdentifier().getName();
-        String value = magicStack.pop();
+        String value = magicStack.pop().getValue();
         Variable variable = new Variable(null, node.getType());
         // It doesn't have a value!
         // What should happen?
@@ -77,9 +87,14 @@ public class TestVisitor implements NodeVisitor {
     public void visitDivisionNode(DivisionNode node) {
         node.getRight().visit(this);
         node.getLeft().visit(this);
-        String value1 = magicStack.pop();
-        String value2 = magicStack.pop();
-        magicStack.push(Double.toString(Double.parseDouble(value1)/Double.parseDouble(value2)));
+        Variable value1 = magicStack.pop();
+        Variable value2 = magicStack.pop();
+        if (value1.getType().equals("string") || value2.getType().equals("string")) {
+            // Exception
+        }
+        String value = Double.toString(Double.parseDouble(value1.getValue())/Double.parseDouble(value2.getValue()));
+        Variable newVariable = new Variable(value, "number");
+        magicStack.push(newVariable);
     }
 
     @Override
@@ -92,21 +107,27 @@ public class TestVisitor implements NodeVisitor {
         String name = node.getName();
         Variable variable = context.get(name);
         // This might be null, exception.
-        magicStack.push(variable.getValue());
+        magicStack.push(variable);
     }
 
     @Override
     public void visitMultiplicationNode(MultiplicationNode node) {
         node.getRight().visit(this);
         node.getLeft().visit(this);
-        String value1 = magicStack.pop();
-        String value2 = magicStack.pop();
-        magicStack.push(Double.toString(Double.parseDouble(value1)*Double.parseDouble(value2)));
+        Variable value1 = magicStack.pop();
+        Variable value2 = magicStack.pop();
+        if (value1.getType().equals("string") || value2.getType().equals("string")) {
+            // Exception
+        }
+        String value = Double.toString(Double.parseDouble(value1.getValue())*Double.parseDouble(value2.getValue()));
+        Variable newVariable = new Variable(value, "number");
+        magicStack.push(newVariable);
     }
 
     @Override
     public void visitNumberNode(NumberNode node) {
-        magicStack.push(node.getValue());
+        Variable variable = new Variable(node.getValue(), "number");
+        magicStack.push(variable);
     }
 
     // It will probably be a good idea to create an abstraction for the console.
@@ -121,7 +142,7 @@ public class TestVisitor implements NodeVisitor {
         // We need the expression to be saved somewhere.
         node.getExpression().visit(this);
         // We print after we are sure the value is in the "stack"
-        String value = magicStack.pop(); // When used, we should remove it.
+        String value = magicStack.pop().getValue(); // When used, we should remove it.
         System.out.println(value);
     }
 
@@ -134,16 +155,22 @@ public class TestVisitor implements NodeVisitor {
         // What should we do with this value?
         // Should we write it somewhere and then read it?
         // Or could we try to return it?
-        magicStack.push(node.getValue());
+        Variable variable = new Variable(node.getValue(), "string");
+        magicStack.push(variable);
     }
 
     @Override
     public void visitSubtractionNode(SubtractionNode node) {
         node.getRight().visit(this);
         node.getLeft().visit(this);
-        String value1 = magicStack.pop();
-        String value2 = magicStack.pop();
-        magicStack.push(Double.toString(Double.parseDouble(value1)-Double.parseDouble(value2)));
+        Variable value1 = magicStack.pop();
+        Variable value2 = magicStack.pop();
+        if (value1.getType().equals("string") || value2.getType().equals("string")) {
+            // Exception
+        }
+        String value = Double.toString(Double.parseDouble(value1.getValue())-Double.parseDouble(value2.getValue()));
+        Variable newVariable = new Variable(value, "number");
+        magicStack.push(newVariable);
     }
 
     @Override
