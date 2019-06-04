@@ -6,10 +6,13 @@ import lexer.TokenType;
 
 public class TermState implements ParserState{
 
+    private LiteralState literal;
+
     private TermNode buffer;
 
     public TermState() {
         this.buffer = null; // Is this even necessary?
+        this.literal = new LiteralState();
     }
 
     @Override
@@ -21,7 +24,7 @@ public class TermState implements ParserState{
         // If there is nothing in the buffer, we must read the next stream token.
         // This token could be three things, a number, an identifier or a string.
         if (buffer == null) {
-            LiteralNode node = readFromStream(stream);
+            LiteralNode node = literal.parse(stream);
             // When the node only has one child, it is neither multiplication nor division
             // There could be a third node type with only one child for this purpose.
             buffer = new TermSingleNode(node);
@@ -38,14 +41,14 @@ public class TermState implements ParserState{
         if (token.getType() == TokenType.MULTIPLICATION) {
             // Now we need to read from the stream to know what to do.
             stream.consume();
-            LiteralNode node = readFromStream(stream);
+            LiteralNode node = literal.parse(stream);
             buffer = new MultiplicationNode(buffer, node);
             return parse(stream);
         }
 
         if (token.getType() == TokenType.DIVISION) {
             stream.consume();
-            LiteralNode node = readFromStream(stream);
+            LiteralNode node = literal.parse(stream);
             buffer = new DivisionNode(buffer, node);
             return parse(stream);
         }
@@ -58,18 +61,5 @@ public class TermState implements ParserState{
 
     private void reset() {
         buffer = null;
-    }
-
-    private LiteralNode readFromStream(TokenStream stream) {
-        Token token = stream.peek();
-        stream.consume(); // We should always be able to consume the character.
-        if (token.getType() == TokenType.IDENTIFIER)
-            return new IdentifierNode(token.getContent());
-        if (token.getType() == TokenType.STRING)
-            return new StringNode(token.getContent());
-        if (token.getType() == TokenType.NUMBER)
-            return new NumberNode(token.getContent());
-        // Something went horribly wrong, throw an exception.
-        throw new SyntaxErrorException();
     }
 }
