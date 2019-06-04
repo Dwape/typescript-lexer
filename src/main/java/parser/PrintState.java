@@ -1,6 +1,5 @@
 package parser;
 
-import lexer.Token;
 import lexer.TokenStream;
 import lexer.TokenType;
 import parser.nodes.ExpressionNode;
@@ -20,30 +19,22 @@ public class PrintState implements ParserState {
     public PrintNode parse(TokenStream stream) {
         // The first thing received will always be a print token
         // Otherwise we wouldn't be called, but we can check it anyways.
-        Token token = stream.peek();
-        // Try to look for a more elegant way of solving this.
-        if (!(token.getType() == TokenType.PRINT)) {
-            throw new SyntaxErrorException();
-        }
-        stream.consume(); // Consume the print token
-        token = stream.peek();
-        if (!(token.getType() == TokenType.LEFT_PARENTHESIS)) {
-            throw new SyntaxErrorException();
-        }
-        stream.consume();
+        checkTokenType(stream, TokenType.PRINT);
+        checkTokenType(stream, TokenType.LEFT_PARENTHESIS);
         // We need to check if the following token is a (
         // Parse the expression
         ExpressionNode node = expression.parse(stream);
-        token = stream.peek();
-        if (!(token.getType() == TokenType.RIGHT_PARENTHESIS)) {
-            throw new SyntaxErrorException();
-        }
-        stream.consume();
-        token = stream.peek();
-        if (!(token.getType() == TokenType.SEMI_COLON)) { // Should it consume the semi-colon?
-            throw new SyntaxErrorException();
-        }
-        stream.consume();
+
+        checkTokenType(stream, TokenType.RIGHT_PARENTHESIS);
+        checkTokenType(stream, TokenType.SEMI_COLON);
         return new PrintNode(node);
+    }
+
+    // Throws an exception if there is an invalid token
+    private void checkTokenType(TokenStream stream, TokenType type) {
+        if (stream.peek().getType() != type) {
+            throw new SyntaxErrorException();
+        }
+        stream.consume();
     }
 }

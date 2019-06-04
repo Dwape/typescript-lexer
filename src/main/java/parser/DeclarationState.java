@@ -15,59 +15,57 @@ public class DeclarationState implements ParserState {
 
     @Override
     public StatementNode parse(TokenStream stream) {
-        Token token = stream.peek();
 
-        if (!(token.getType() == TokenType.LET)) {
-            throw new SyntaxErrorException();
-        }
-        stream.consume();
+        checkTokenType(stream, TokenType.LET);
 
-        token = stream.peek();
-        // Try to look for a more elegant way of solving this.
-        if (!(token.getType() == TokenType.IDENTIFIER)) {
-            throw new SyntaxErrorException();
-        }
-        stream.consume(); // Consume the identifier token
-        // We need to save the identifier node
-        IdentifierNode node = new IdentifierNode(token.getContent()); // This could be improved.
-        token = stream.peek();
-        if (!(token.getType() == TokenType.COLON)) {
-            throw new SyntaxErrorException();
-        }
-        stream.consume();
+        Token token = checkTokenType(stream, TokenType.IDENTIFIER);
 
-        token = stream.peek();
-        // We have the type here, so something could be done about it
-        if (!(token.getType() == TokenType.NUMBER_TYPE) && !(token.getType() == TokenType.STRING_TYPE)) { // Should it consume the semi-colon?
-            throw new SyntaxErrorException();
-        }
-        TypeNode node2;
+        IdentifierNode identifier = new IdentifierNode(token.getContent()); // This could be improved.
+
+        checkTokenType(stream, TokenType.COLON);
+
+        token = checkTwoTypes(stream, TokenType.NUMBER_TYPE, TokenType.STRING_TYPE);
+
+        TypeNode type;
         if (token.getType() == TokenType.NUMBER_TYPE) {
-            node2 = new NumberTypeNode();
+            type = new NumberTypeNode();
         } else {
-            node2 = new StringTypeNode();
+            type = new StringTypeNode();
         }
-        stream.consume();
 
         // Here two things can happen
         // We can have a declaration or if might end.
         token = stream.peek();
         if (token.getType() == TokenType.SEMI_COLON) { // Should it consume the semi-colon?
             // We are done, return;
-            return new DeclareNode(node, node2);
+            return new DeclareNode(identifier, type);
         }
-        if (!(token.getType() == TokenType.EQUALS)) { // Should it consume the semi-colon?
-            // We are done, return;
+        checkTokenType(stream, TokenType.EQUALS);
+
+        ExpressionNode node = expression.parse(stream);
+
+        checkTokenType(stream, TokenType.SEMI_COLON);
+
+        return new DeclareAssignNode(identifier, type, node);
+    }
+
+    // Throws an exception if there is an invalid token
+    private Token checkTokenType(TokenStream stream, TokenType type) {
+        Token token = stream.peek();
+        if (token.getType() != type) {
             throw new SyntaxErrorException();
         }
         stream.consume();
-        ExpressionNode node3 = expression.parse(stream);
-        token = stream.peek();
-        if (!(token.getType() == TokenType.SEMI_COLON)) { // Should it consume the semi-colon?
-            // We are done, return;
+        return token;
+    }
+
+    // This method will only be used once and may not really be necessary.
+    private Token checkTwoTypes(TokenStream stream, TokenType type1, TokenType type2) {
+        Token token = stream.peek();
+        if (token.getType() != type1 && token.getType() != type2) {
             throw new SyntaxErrorException();
         }
         stream.consume();
-        return new DeclareAssignNode(node, node2, node3);
+        return token;
     }
 }

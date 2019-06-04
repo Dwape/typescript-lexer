@@ -19,27 +19,27 @@ public class AssignmentState implements ParserState{
     @Override
     public StatementNode parse(TokenStream stream) {
 
-        Token token = stream.peek();
-        // Try to look for a more elegant way of solving this.
-        if (!(token.getType() == TokenType.IDENTIFIER)) {
-            throw new SyntaxErrorException();
-        }
-        stream.consume(); // Consume the identifier token
         // We need to save the identifier node
-        IdentifierNode node = new IdentifierNode(token.getContent()); // This could be improved.
-        token = stream.peek();
-        if (!(token.getType() == TokenType.EQUALS)) {
-            throw new SyntaxErrorException();
-        }
-        stream.consume();
+        Token token = checkTokenType(stream, TokenType.IDENTIFIER);
+        IdentifierNode type = new IdentifierNode(token.getContent()); // This could be improved.
+
+        checkTokenType(stream, TokenType.EQUALS);
         // We need to check if the following token is a (
         // Parse the expression
-        ExpressionNode node2 = expression.parse(stream);
-        token = stream.peek();
-        if (!(token.getType() == TokenType.SEMI_COLON)) { // Should it consume the semi-colon?
+        ExpressionNode node = expression.parse(stream);
+
+        checkTokenType(stream, TokenType.SEMI_COLON);
+
+        return new AssignmentNode(type, node);
+    }
+
+    // Throws an exception if there is an invalid token
+    private Token checkTokenType(TokenStream stream, TokenType type) {
+        Token token = stream.peek();
+        if (token.getType() != type) {
             throw new SyntaxErrorException();
         }
         stream.consume();
-        return new AssignmentNode(node, node2);
+        return token;
     }
 }
