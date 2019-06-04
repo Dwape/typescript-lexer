@@ -1,7 +1,7 @@
 package parser;
 
 import lexer.*;
-import parser.nodes.ProgramNode;
+import parser.nodes.ASTNode;
 
 public class App {
     public String getGreeting() {
@@ -14,8 +14,8 @@ public class App {
         InputStream stream = new TextStream("print(3+4);let nice: number = 23; nice = 24;");
         TokenStream output = lexer.lex(stream);
 
-        ProgramState programState = new ProgramState();
-        ProgramNode node = programState.parse(output);
+        Parser parser = new TypeScriptParser();
+        ASTNode node = parser.parse(output);
 
         // stream.peek(); // This should break.
         // There is a problem here
