@@ -1,5 +1,6 @@
 package parser.nodes;
 
+import parser.NodeVisitor;
 import parser.nodes.ExpressionNode;
 import parser.nodes.StatementNode;
 
@@ -9,5 +10,14 @@ public class PrintNode implements StatementNode {
 
     public PrintNode(ExpressionNode expression) {
         this.expression = expression;
+    }
+
+    @Override
+    public void visit(NodeVisitor visitor) {
+        visitor.visitPrintNode(this);
+    }
+
+    public ExpressionNode getExpression() {
+        return expression;
     }
 }

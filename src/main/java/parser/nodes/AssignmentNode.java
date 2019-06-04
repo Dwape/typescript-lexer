@@ -1,5 +1,7 @@
 package parser.nodes;
 
+import parser.NodeVisitor;
+
 public class AssignmentNode implements StatementNode {
 
     private ExpressionNode expression;
@@ -9,5 +11,10 @@ public class AssignmentNode implements StatementNode {
     public AssignmentNode(IdentifierNode identifier, ExpressionNode expression) {
         this.identifier = identifier;
         this.expression = expression;
+    }
+
+    @Override
+    public void visit(NodeVisitor visitor) {
+        visitor.visitAssignmentNode(this);
     }
 }

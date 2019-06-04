@@ -1,5 +1,7 @@
 package parser.nodes;
 
+import parser.NodeVisitor;
+
 public class MultiplicationNode implements TermNode{
 
     private TermNode left; // This value can be null
@@ -9,5 +11,18 @@ public class MultiplicationNode implements TermNode{
     public MultiplicationNode(TermNode left, LiteralNode right) {
         this.left = left;
         this.right = right;
+    }
+
+    @Override
+    public void visit(NodeVisitor visitor) {
+        visitor.visitMultiplicationNode(this);
+    }
+
+    public TermNode getLeft() {
+        return left;
+    }
+
+    public LiteralNode getRight() {
+        return right;
     }
 }

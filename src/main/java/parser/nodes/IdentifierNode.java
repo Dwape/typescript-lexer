@@ -1,5 +1,7 @@
 package parser.nodes;
 
+import parser.NodeVisitor;
+
 public class IdentifierNode implements LiteralNode{
 
     private String name;
@@ -10,5 +12,10 @@ public class IdentifierNode implements LiteralNode{
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void visit(NodeVisitor visitor) {
+        visitor.visitIdentifierNode(this);
     }
 }

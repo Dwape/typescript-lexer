@@ -26,7 +26,7 @@ public class DeclarationState implements ParserState {
 
         token = checkTwoTypes(stream, TokenType.NUMBER_TYPE, TokenType.STRING_TYPE);
 
-        TypeNode type = createTypeNode(token);
+        String type = getType(token);
 
         // Here two things can happen
         // We can have a declaration or if might end.
@@ -64,11 +64,11 @@ public class DeclarationState implements ParserState {
         return token;
     }
 
-    private TypeNode createTypeNode(Token token) {
+    private String getType(Token token) {
         if (token.getType() == TokenType.NUMBER_TYPE)
-            return new NumberTypeNode();
+            return "number";
         if (token.getType() == TokenType.STRING_TYPE)
-            return new StringTypeNode();
+            return "string";
         throw new SyntaxErrorException(); // This shouldn't happen, but just in case.
     }
 

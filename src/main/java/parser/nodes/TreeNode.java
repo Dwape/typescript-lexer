@@ -1,5 +1,7 @@
 package parser.nodes;
 
+import parser.NodeVisitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,5 +19,14 @@ public class TreeNode implements ProgramNode{
     // Should this method be in ProgramNode?
     public void addStatement(StatementNode node) {
         statements.add(node);
+    }
+
+    @Override
+    public void visit(NodeVisitor visitor) {
+        visitor.visitTreeNode(this);
+    }
+
+    public List<StatementNode> getStatements() {
+        return statements;
     }
 }
