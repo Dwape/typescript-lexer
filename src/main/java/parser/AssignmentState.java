@@ -3,6 +3,10 @@ package parser;
 import lexer.Token;
 import lexer.TokenStream;
 import lexer.TokenType;
+import parser.nodes.AssignmentNode;
+import parser.nodes.ExpressionNode;
+import parser.nodes.IdentifierNode;
+import parser.nodes.StatementNode;
 
 public class AssignmentState implements ParserState{
 

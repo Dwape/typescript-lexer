@@ -1,6 +1,6 @@
-package parser;
+package parser.nodes;
 
-public class AdditionNode implements ExpressionNode{
+public class AdditionNode implements ExpressionNode {
 
     private ExpressionNode left; // This value can be null
 

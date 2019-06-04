@@ -1,4 +1,4 @@
-package parser;
+package parser.nodes;
 
 public class SubtractionNode implements ExpressionNode {
 

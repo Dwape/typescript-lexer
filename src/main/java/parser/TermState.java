@@ -3,6 +3,7 @@ package parser;
 import lexer.Token;
 import lexer.TokenStream;
 import lexer.TokenType;
+import parser.nodes.*;
 
 public class TermState implements ParserState{
 

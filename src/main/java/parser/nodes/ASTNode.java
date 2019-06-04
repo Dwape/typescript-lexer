@@ -1,4 +1,4 @@
-package parser;
+package parser.nodes;
 
 // Represents a node in the Abstract Syntax Tree
 // Should there be different node types for each Language Element type?

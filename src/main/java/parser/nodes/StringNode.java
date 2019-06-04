@@ -1,10 +1,10 @@
-package parser;
+package parser.nodes;
 
-public class NumberNode implements LiteralNode{
+public class StringNode implements LiteralNode{
 
     private String value;
 
-    public NumberNode(String value) {
+    public StringNode(String value) {
         this.value = value;
     }
 

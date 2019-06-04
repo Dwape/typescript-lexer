@@ -1,4 +1,4 @@
-package parser;
+package parser.nodes;
 
 public class ExpressionSingleNode implements ExpressionNode {
 

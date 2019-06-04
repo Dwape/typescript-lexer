@@ -3,6 +3,9 @@ package parser;
 import lexer.Token;
 import lexer.TokenStream;
 import lexer.TokenType;
+import parser.nodes.ProgramNode;
+import parser.nodes.StatementNode;
+import parser.nodes.TreeNode;
 
 public class ProgramState implements ParserState {
 

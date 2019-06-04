@@ -1,4 +1,4 @@
-package parser;
+package parser.nodes;
 
 // Is this a little exaggerated?
 // Maybe we have a little too many nodes and node types
