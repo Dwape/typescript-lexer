@@ -9,11 +9,12 @@ public class App {
 
     public static void main(String[] args) {
         Lexer lexer = new TokenLexer();
-        InputStream stream = new TextStream("4*5+2/1+19;");
+        //InputStream stream = new TextStream("4*5+2/1+19;");
+        InputStream stream = new TextStream("print(3+4);let nice: number = 23; nice = 24;");
         TokenStream output = lexer.lex(stream);
 
-        ExpressionState expressionState = new ExpressionState();
-        ExpressionNode node = expressionState.parse(output);
+        ProgramState programState = new ProgramState();
+        ProgramNode node = programState.parse(output);
 
         // stream.peek(); // This should break.
         // There is a problem here

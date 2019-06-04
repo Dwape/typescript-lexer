@@ -18,7 +18,7 @@ public class TermState implements ParserState{
     @Override
     public TermNode parse(TokenStream stream) {
         // If the stream is empty, let's just return the buffer
-        if (!stream.hasNext()) {
+        if (!stream.hasNext()) { // Is this actually necessary?
             return buffer;
         }
         // If there is nothing in the buffer, we must read the next stream token.
