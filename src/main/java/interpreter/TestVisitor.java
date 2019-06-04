@@ -29,6 +29,11 @@ public class TestVisitor implements NodeVisitor {
     public void visitAdditionNode(AdditionNode node) {
         node.getRight().visit(this);
         node.getLeft().visit(this);
+        String value1 = magicStack.pop();
+        String value2 = magicStack.pop();
+        // We have to consider concatenation here
+        // But we still don't have types.
+        magicStack.push(Double.toString(Double.parseDouble(value1)+Double.parseDouble(value2)));
     }
 
     @Override
@@ -67,7 +72,11 @@ public class TestVisitor implements NodeVisitor {
 
     @Override
     public void visitMultiplicationNode(MultiplicationNode node) {
-
+        node.getRight().visit(this);
+        node.getLeft().visit(this);
+        String value1 = magicStack.pop();
+        String value2 = magicStack.pop();
+        magicStack.push(Double.toString(Double.parseDouble(value1)*Double.parseDouble(value2)));
     }
 
     @Override
@@ -105,7 +114,11 @@ public class TestVisitor implements NodeVisitor {
 
     @Override
     public void visitSubtractionNode(SubtractionNode node) {
-
+        node.getRight().visit(this);
+        node.getLeft().visit(this);
+        String value1 = magicStack.pop();
+        String value2 = magicStack.pop();
+        magicStack.push(Double.toString(Double.parseDouble(value1)-Double.parseDouble(value2)));
     }
 
     @Override

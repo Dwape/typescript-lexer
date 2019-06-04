@@ -9,7 +9,7 @@ public class App {
 
     public static void main(String[] args) {
         Lexer lexer = new TokenLexer();
-        InputStream stream = new TextStream("print(10/2);");
+        InputStream stream = new TextStream("print(10/2+4*5);");
         TokenStream output = lexer.lex(stream);
 
         Parser parser = new TypeScriptParser();
