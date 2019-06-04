@@ -40,11 +40,11 @@ public class DeclarationState implements ParserState {
         if (!(token.getType() == TokenType.NUMBER_TYPE) && !(token.getType() == TokenType.STRING_TYPE)) { // Should it consume the semi-colon?
             throw new SyntaxErrorException();
         }
-        String type;
+        TypeNode node2;
         if (token.getType() == TokenType.NUMBER_TYPE) {
-            type = "number";
+            node2 = new NumberTypeNode();
         } else {
-            type = "string";
+            node2 = new StringTypeNode();
         }
         stream.consume();
 
@@ -53,20 +53,20 @@ public class DeclarationState implements ParserState {
         token = stream.peek();
         if (token.getType() == TokenType.SEMI_COLON) { // Should it consume the semi-colon?
             // We are done, return;
-            return new DeclareNode(node, type);
+            return new DeclareNode(node, node2);
         }
         if (!(token.getType() == TokenType.EQUALS)) { // Should it consume the semi-colon?
             // We are done, return;
             throw new SyntaxErrorException();
         }
         stream.consume();
-        ExpressionNode node2 = expression.parse(stream);
+        ExpressionNode node3 = expression.parse(stream);
         token = stream.peek();
         if (!(token.getType() == TokenType.SEMI_COLON)) { // Should it consume the semi-colon?
             // We are done, return;
             throw new SyntaxErrorException();
         }
         stream.consume();
-        return new DeclareAssignNode(node, type, node2);
+        return new DeclareAssignNode(node, node2, node3);
     }
 }
