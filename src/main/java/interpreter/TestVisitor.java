@@ -41,7 +41,7 @@ public class TestVisitor implements NodeVisitor {
         // But we still don't have types.
         if (value1.getType().equals("string") || value2.getType().equals("string")) {
             // If this happens, then we have a string concatenation
-            Variable newVariable = new Variable(value1.getValue() + value2.getValue(), "number");
+            Variable newVariable = new Variable(value1.getValue() + value2.getValue(), "string");
             magicStack.push(newVariable);
         } else {
             String value = Double.toString(Double.parseDouble(value1.getValue())+Double.parseDouble(value2.getValue()));
@@ -57,9 +57,17 @@ public class TestVisitor implements NodeVisitor {
         Variable variable = context.get(name);
         if (variable == null) {
             // throw an exception
+            // Is this reference error necessary?
+            throw new ReferenceError(); // We could add some text here (to say which variable failed).
+            // For example, ${name} is not defined.
         }
         // We need to check types here.
-        variable = new Variable(magicStack.pop().getValue(), variable.getType());
+        Variable newVariable = magicStack.pop();
+        if (!newVariable.getType().equals(variable.getType())) {
+            // throw an exception
+            throw new TypeError(); // We could add some text here (to say which variable failed).
+        }
+        variable = new Variable(newVariable.getValue(), variable.getType());
         context.put(name, variable);
     }
 
@@ -67,8 +75,13 @@ public class TestVisitor implements NodeVisitor {
     public void visitDeclareAssignNode(DeclareAssignNode node) {
         node.getExpression().visit(this);
         String name = node.getIdentifier().getName();
-        String value = magicStack.pop().getValue();
-        Variable variable = new Variable(value, node.getType());
+
+        Variable newVariable = magicStack.pop();
+        if (!newVariable.getType().equals(node.getType())) {
+            // throw an exception
+            throw new TypeError(); // We could add some text here (to say which variable failed).
+        }
+        Variable variable = new Variable(newVariable.getValue(), node.getType());
         context.put(name, variable);
     }
 
@@ -76,8 +89,15 @@ public class TestVisitor implements NodeVisitor {
     public void visitDeclareNode(DeclareNode node) {
         // We are creating a variable without a value, how should this work?
         String name = node.getIdentifier().getName();
-        String value = magicStack.pop().getValue();
-        Variable variable = new Variable(null, node.getType());
+        // Sometimes there is no value in the stack.
+
+        Variable variable;
+        if (magicStack.isEmpty()) {
+            variable = new Variable(null, node.getType());
+        } else {
+            Variable value = magicStack.pop();
+            variable = new Variable(value.getValue(), node.getType());
+        }
         // It doesn't have a value!
         // What should happen?
         context.put(name, variable);
@@ -106,6 +126,9 @@ public class TestVisitor implements NodeVisitor {
     public void visitIdentifierNode(IdentifierNode node) {
         String name = node.getName();
         Variable variable = context.get(name);
+        if (variable == null) {
+            throw new ReferenceError();
+        }
         // This might be null, exception.
         magicStack.push(variable);
     }

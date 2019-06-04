@@ -74,7 +74,7 @@ public class DeclarationState implements ParserState {
 
     private boolean endOfElement(TokenStream stream) {
         Token token = stream.peek();
+        stream.consume();
         return token.getType() == TokenType.SEMI_COLON;
-
     }
 }

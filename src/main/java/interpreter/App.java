@@ -10,7 +10,10 @@ public class App {
     public static void main(String[] args) {
         Lexer lexer = new TokenLexer();
         //InputStream stream = new TextStream("let nice: number = 42; nice = 12; print(nice*2+3);");
-        InputStream stream = new TextStream("let nice: string = 'hello'; nice = nice + ', world!'; print(nice);");
+        //InputStream stream = new TextStream("let nice: string = 'hello'; nice = nice + 4*5; print(nice);");
+        InputStream stream = new TextStream("let nice: string; nice = 'hello' + 4*2; print(nice);"); // Throws SyntaxError.
+        //InputStream stream = new TextStream("let nice: string = 'hello'; nice = 4; print(nice);");
+        //InputStream stream = new TextStream("let nice: string = '4'; print(hello);");
         TokenStream output = lexer.lex(stream);
 
         Parser parser = new TypeScriptParser();
