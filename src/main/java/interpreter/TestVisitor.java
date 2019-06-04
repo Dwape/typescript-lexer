@@ -3,7 +3,9 @@ package interpreter;
 import parser.NodeVisitor;
 import parser.nodes.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 public class TestVisitor implements NodeVisitor {
@@ -16,9 +18,11 @@ public class TestVisitor implements NodeVisitor {
     // Some variable with a value and a type, right?
     // Let's try if it works with Strings to begin with.
     private Stack<String> magicStack; // Change this name
+    private Map<String, Variable> context; // This holds all the variables.
 
     public TestVisitor() {
         this.magicStack = new Stack<>();
+        this.context = new HashMap<>();
     }
 
     public void start(ASTNode node) {
@@ -38,17 +42,35 @@ public class TestVisitor implements NodeVisitor {
 
     @Override
     public void visitAssignmentNode(AssignmentNode node) {
-
+        node.getExpression().visit(this);
+        String name = node.getIdentifier().getName();
+        Variable variable = context.get(name);
+        if (variable == null) {
+            // throw an exception
+        }
+        // We need to check types here.
+        variable = new Variable(magicStack.pop(), variable.getType());
+        context.put(name, variable);
     }
 
     @Override
     public void visitDeclareAssignNode(DeclareAssignNode node) {
-
+        node.getExpression().visit(this);
+        String name = node.getIdentifier().getName();
+        String value = magicStack.pop();
+        Variable variable = new Variable(value, node.getType());
+        context.put(name, variable);
     }
 
     @Override
     public void visitDeclareNode(DeclareNode node) {
-
+        // We are creating a variable without a value, how should this work?
+        String name = node.getIdentifier().getName();
+        String value = magicStack.pop();
+        Variable variable = new Variable(null, node.getType());
+        // It doesn't have a value!
+        // What should happen?
+        context.put(name, variable);
     }
 
     @Override
@@ -67,7 +89,10 @@ public class TestVisitor implements NodeVisitor {
 
     @Override
     public void visitIdentifierNode(IdentifierNode node) {
-
+        String name = node.getName();
+        Variable variable = context.get(name);
+        // This might be null, exception.
+        magicStack.push(variable.getValue());
     }
 
     @Override
@@ -109,7 +134,7 @@ public class TestVisitor implements NodeVisitor {
         // What should we do with this value?
         // Should we write it somewhere and then read it?
         // Or could we try to return it?
-        node.getValue();
+        magicStack.push(node.getValue());
     }
 
     @Override

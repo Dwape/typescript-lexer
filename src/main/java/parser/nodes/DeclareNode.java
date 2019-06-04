@@ -17,4 +17,12 @@ public class DeclareNode implements DeclarationNode {
     public void visit(NodeVisitor visitor) {
         visitor.visitDeclareNode(this);
     }
+
+    public IdentifierNode getIdentifier() {
+        return identifier;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

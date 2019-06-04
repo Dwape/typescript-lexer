@@ -20,4 +20,16 @@ public class DeclareAssignNode implements DeclarationNode {
     public void visit(NodeVisitor visitor) {
         visitor.visitDeclareAssignNode(this);
     }
+
+    public ExpressionNode getExpression() {
+        return expression;
+    }
+
+    public IdentifierNode getIdentifier() {
+        return identifier;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

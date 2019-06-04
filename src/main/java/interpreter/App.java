@@ -9,7 +9,7 @@ public class App {
 
     public static void main(String[] args) {
         Lexer lexer = new TokenLexer();
-        InputStream stream = new TextStream("print(10/2+4*5);");
+        InputStream stream = new TextStream("let nice: number = 42; nice = 12; print(nice*2+3); nice = nice*3; print(nice);");
         TokenStream output = lexer.lex(stream);
 
         Parser parser = new TypeScriptParser();
@@ -22,6 +22,6 @@ public class App {
         TestVisitor interpreter = new TestVisitor();
         interpreter.start(node);
 
-        System.out.println("why did it fail?");
+        //System.out.println("why did it fail?");
     }
 }

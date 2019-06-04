@@ -17,4 +17,12 @@ public class AssignmentNode implements StatementNode {
     public void visit(NodeVisitor visitor) {
         visitor.visitAssignmentNode(this);
     }
+
+    public ExpressionNode getExpression() {
+        return expression;
+    }
+
+    public IdentifierNode getIdentifier() {
+        return identifier;
+    }
 }
