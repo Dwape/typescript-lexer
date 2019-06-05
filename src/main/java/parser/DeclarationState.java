@@ -32,6 +32,7 @@ public class DeclarationState implements ParserState {
         // We can have a declaration or if might end.
         if (endOfElement(stream)) { // Should it consume the semi-colon?
             // We are done, return;
+            stream.consume();
             return new DeclareNode(identifier, type);
         }
 
@@ -74,7 +75,6 @@ public class DeclarationState implements ParserState {
 
     private boolean endOfElement(TokenStream stream) {
         Token token = stream.peek();
-        stream.consume();
         return token.getType() == TokenType.SEMI_COLON;
     }
 }
