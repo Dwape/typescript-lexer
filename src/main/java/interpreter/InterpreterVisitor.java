@@ -10,14 +10,6 @@ import java.util.Stack;
 
 public class InterpreterVisitor implements NodeVisitor {
 
-    // We should store some state somewhere
-    // What is the best way of doing this?
-
-    // We should also have a map with the variables, their types and their value.
-
-    // Some variable with a value and a type, right?
-    // Let's try if it works with Strings to begin with.
-
     // Using variables could be better
     private Stack<Variable> magicStack; // Change this name
     private Map<String, Variable> context; // This holds all the variables.
@@ -50,18 +42,18 @@ public class InterpreterVisitor implements NodeVisitor {
     public void visitAssignmentNode(AssignmentNode node) {
         node.getExpression().visit(this);
         String name = node.getIdentifier().getName();
-        Variable variable = context.get(name);
-        if (variable == null) {
+        if (!context.containsKey(name)) {
             // throw an exception
             // Is this reference error necessary?
-            throw new ReferenceError(); // We could add some text here (to say which variable failed).
+            throw new ReferenceError(String.format("%s is not defined", name)); // We could add some text here (to say which variable failed).
             // For example, ${name} is not defined.
         }
+        Variable variable = context.get(name);
         Variable newVariable = magicStack.pop();
         // Type checking
         if (!newVariable.getType().equals(variable.getType())) {
             // throw an exception
-            throw new TypeError(); // We could add some text here (to say which variable failed).
+            throw new TypeError(String.format("%s is not of type %s", name, newVariable.getType())); // We could add some text here (to say which variable failed).
         }
         variable = factory.createVariable(newVariable.getValue(), newVariable.getType());
 
@@ -72,13 +64,17 @@ public class InterpreterVisitor implements NodeVisitor {
     public void visitDeclareAssignNode(DeclareAssignNode node) {
         node.getExpression().visit(this);
         String name = node.getIdentifier().getName();
+        // We need to check if it already exists.
+        if (context.containsKey(name)) {
+            throw new ReferenceError(String.format("%s is already defined", name));
+        }
         // We need to check if we are referencing a variable that exists.
         Variable newVariable = magicStack.pop();
         Variable variable;
         // Can this type checking be done in a better way?
         if (!newVariable.getType().equals(node.getType())) {
             // throw an exception
-            throw new TypeError(); // We could add some text here (to say which variable failed).
+            throw new TypeError(String.format("%s is not of type %s", name, newVariable.getType())); // We could add some text here (to say which variable failed).
         }
         variable = factory.createVariable(newVariable.getValue(), newVariable.getType());
 
@@ -90,15 +86,13 @@ public class InterpreterVisitor implements NodeVisitor {
         // We are creating a variable without a value, how should this work?
         String name = node.getIdentifier().getName();
         // Sometimes there is no value in the stack.
-
-        Variable variable;
-        // Why checking if it is empty?
-        if (magicStack.isEmpty()) {
-            variable = factory.createVariable(null, node.getType());
-        } else {
-            Variable value = magicStack.pop();
-            variable = factory.createVariable(value.getValue(), node.getType());
+        if (context.containsKey(name)) {
+            throw new ReferenceError(String.format("%s is already defined", name));
         }
+        Variable variable;
+        // We need to check if it already exists.
+        variable = factory.createVariable(null, node.getType());
+
         // It doesn't have a value!
         // What should happen?
         context.put(name, variable);
@@ -122,10 +116,11 @@ public class InterpreterVisitor implements NodeVisitor {
     @Override
     public void visitIdentifierNode(IdentifierNode node) {
         String name = node.getName();
-        Variable variable = context.get(name);
-        if (variable == null) {
-            throw new ReferenceError();
+
+        if (!context.containsKey(name)) {
+            throw new ReferenceError(String.format("%s is not defined", name));
         }
+        Variable variable = context.get(name);
         // This might be null, exception.
         magicStack.push(variable);
     }
@@ -150,11 +145,6 @@ public class InterpreterVisitor implements NodeVisitor {
     // It could be an interface that can have different standard outs, although the default will be console.
     @Override
     public void visitPrintNode(PrintNode node) {
-        // How would the visiting logic even work?
-        // We are calling a method on the visitor which is not very useful to say the least
-        // Maybe if the one reading the values had a state it could work
-        // But we still need to think a little more about this.
-
         // We need the expression to be saved somewhere.
         node.getExpression().visit(this);
         // We print after we are sure the value is in the "stack"
@@ -163,14 +153,7 @@ public class InterpreterVisitor implements NodeVisitor {
     }
 
     @Override
-    // Even if we returned the value, the node would receive it
-    // Could the visit method return the value?
-    // It would have to be a generic type for all the different nodes.
-    // Maybe a node visit response?
     public void visitStringNode(StringNode node) {
-        // What should we do with this value?
-        // Should we write it somewhere and then read it?
-        // Or could we try to return it?
         Variable variable = new StringVariable(node.getValue());
         magicStack.push(variable);
     }

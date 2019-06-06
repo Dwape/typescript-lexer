@@ -27,7 +27,7 @@ public class NumberVariable implements Variable {
     public Variable subtract(Variable variable) {
         // This behavior will be repeated (could be extracted to another method).
         if (variable.getType().equals("string")) {
-            throw new TypeError(); // add some text. (maybe)
+            throw new TypeError("Can't subtract by string"); // add some text. (maybe)
         }
         // We need the internal value of the variable, how should it be saved?
         // If we send it as a string, then we have to convert it twice (which is less than convenient).
@@ -43,7 +43,7 @@ public class NumberVariable implements Variable {
     @Override
     public Variable multiply(Variable variable) {
         if (variable.getType().equals("string")) {
-            throw new TypeError(); // add some text. (maybe)
+            throw new TypeError("Can't multiply by string"); // add some text. (maybe)
         }
         double value1 = Double.parseDouble(value);
         double value2 = Double.parseDouble(variable.getValue());
@@ -55,7 +55,7 @@ public class NumberVariable implements Variable {
     @Override
     public Variable divide(Variable variable) {
         if (variable.getType().equals("string")) {
-            throw new TypeError(); // add some text. (maybe)
+            throw new TypeError("Can't divide be string"); // add some text. (maybe)
         }
         double value1 = Double.parseDouble(value);
         double value2 = Double.parseDouble(variable.getValue());

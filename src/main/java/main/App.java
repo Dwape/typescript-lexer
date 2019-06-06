@@ -1,7 +1,6 @@
 package main;
 
 import interpreter.Interpreter;
-import interpreter.InterpreterVisitor;
 import interpreter.TypeScriptInterpreter;
 import lexer.InputStream;
 import lexer.Lexer;
