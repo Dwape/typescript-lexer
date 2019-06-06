@@ -1,6 +1,12 @@
-package interpreter;
+package main;
 
-import lexer.*;
+import interpreter.Interpreter;
+import interpreter.InterpreterVisitor;
+import interpreter.TypeScriptInterpreter;
+import lexer.InputStream;
+import lexer.Lexer;
+import lexer.TextStream;
+import lexer.TokenLexer;
 import lexer.token.TokenStream;
 import parser.Parser;
 import parser.TypeScriptParser;
@@ -26,8 +32,8 @@ public class App {
         // There is a problem here
         // The states consume an extra token, that must be fixed.
 
-        InterpreterVisitor interpreter = new InterpreterVisitor();
-        interpreter.start(node);
+        Interpreter interpreter = new TypeScriptInterpreter();
+        interpreter.interpret(node);
 
         //System.out.println("why did it fail?");
     }

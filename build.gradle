@@ -31,4 +31,4 @@ test {
 }
 
 // Define the main class for the application
-mainClassName = 'lexer.App'
+mainClassName = 'main.App'
