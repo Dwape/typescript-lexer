@@ -1,6 +1,6 @@
 package parser;
 
-import lexer.TokenStream;
+import lexer.token.TokenStream;
 import parser.nodes.ASTNode;
 
 public interface Parser {

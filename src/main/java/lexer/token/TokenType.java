@@ -1,4 +1,4 @@
-package lexer;
+package lexer.token;
 
 public enum TokenType {
     LET,

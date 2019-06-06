@@ -1,6 +1,7 @@
 package interpreter;
 
 import lexer.*;
+import lexer.token.TokenStream;
 import parser.Parser;
 import parser.TypeScriptParser;
 import parser.nodes.ASTNode;

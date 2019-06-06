@@ -1,5 +1,9 @@
 package lexer;
 
+import lexer.token.Token;
+import lexer.token.TokenType;
+import lexer.token.TypeScriptToken;
+
 import java.util.HashMap;
 import java.util.Map;
 

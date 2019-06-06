@@ -1,5 +1,7 @@
 package lexer;
 
+import lexer.token.Token;
+
 // This could have a nicer behavior, but for now this works.
 // We should create an interface for this, it will be better.
 public class TypeScriptStateResponse implements StateResponse{

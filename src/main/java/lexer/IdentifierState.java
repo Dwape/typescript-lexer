@@ -1,5 +1,9 @@
 package lexer;
 
+import lexer.token.Token;
+import lexer.token.TokenType;
+import lexer.token.TypeScriptToken;
+
 public class IdentifierState implements LexerState {
 
     private String buffer; // Check if this way of doing this is very inefficient.

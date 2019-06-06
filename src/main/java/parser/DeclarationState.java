@@ -1,8 +1,8 @@
 package parser;
 
-import lexer.Token;
-import lexer.TokenStream;
-import lexer.TokenType;
+import lexer.token.Token;
+import lexer.token.TokenStream;
+import lexer.token.TokenType;
 import parser.nodes.*;
 
 public class DeclarationState implements ParserState {

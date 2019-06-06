@@ -1,7 +1,7 @@
 package parser;
 
-import lexer.TokenStream;
-import lexer.TokenType;
+import lexer.token.TokenStream;
+import lexer.token.TokenType;
 import parser.nodes.ExpressionNode;
 import parser.nodes.PrintNode;
 

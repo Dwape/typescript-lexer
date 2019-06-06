@@ -1,6 +1,7 @@
 package parser;
 
 import lexer.*;
+import lexer.token.TokenStream;
 import parser.nodes.ASTNode;
 
 public class App {

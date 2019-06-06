@@ -1,5 +1,9 @@
 package lexer;
 
+import lexer.token.Token;
+import lexer.token.TokenStream;
+import lexer.token.TypeScriptTokenStream;
+
 import java.util.ArrayList;
 import java.util.List;
 

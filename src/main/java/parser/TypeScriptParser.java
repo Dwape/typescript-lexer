@@ -1,6 +1,6 @@
 package parser;
 
-import lexer.TokenStream;
+import lexer.token.TokenStream;
 import parser.nodes.ASTNode;
 
 // This is not really necessary, it is the same as the ParserState

@@ -1,5 +1,8 @@
 package lexer;
 
+import lexer.token.Token;
+import lexer.token.TypeScriptTokenPosition;
+
 public class TokenLocator {
 
     private int currentLine; // line starts at 1.

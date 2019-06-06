@@ -1,5 +1,7 @@
 package lexer;
 
+import lexer.token.Token;
+
 public interface StateResponse {
 
     public LexerState getNextState();

@@ -1,5 +1,9 @@
 package lexer;
 
+import lexer.token.Token;
+import lexer.token.TokenType;
+import lexer.token.TypeScriptToken;
+
 public class NumberState implements LexerState{
 
     private LexerState state;

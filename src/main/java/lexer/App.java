@@ -3,6 +3,8 @@
  */
 package lexer;
 
+import lexer.token.TokenStream;
+
 public class App {
     public String getGreeting() {
         return "Hello world.";

@@ -15,6 +15,7 @@ public class NumberVariable implements Variable {
         if (variable.getType().equals("string")) {
             return new StringVariable(value + variable.getValue());
         }
+        // This needs to be improved in some way.
         double value1 = Double.parseDouble(value);
         double value2 = Double.parseDouble(variable.getValue());
         String result = Double.toString(value1+value2);
