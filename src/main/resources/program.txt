@@ -1,0 +1,6 @@
+print(4+5);
+let nice: number = 4;
+let text: string = 'hello';
+print(text + nice);
+
+let test: number;
