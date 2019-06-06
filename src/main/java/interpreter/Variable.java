@@ -1,25 +1,16 @@
 package interpreter;
 
-// This could be an interface, if that was necessary.
-public class Variable {
+public interface Variable {
 
-    // Should this be already converted?
-    // If we know the type then there is no real problem here
-    private String value;
+    public Variable add(Variable variable);
 
-    private String type;
+    public Variable subtract(Variable variable);
 
-    // Should the name go here or stored in the map.
-    public Variable(String value, String type) {
-        this.value = value;
-        this.type = type;
-    }
+    public Variable multiply(Variable variable);
 
-    public String getValue() {
-        return value;
-    }
+    public Variable divide(Variable variable);
 
-    public String getType() {
-        return type;
-    }
+    public String getType();
+
+    public String getValue();
 }
