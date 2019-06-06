@@ -15,6 +15,9 @@ public class LiteralState implements ParserState {
 
     @Override
     public LiteralNode parse(TokenStream stream) {
+        if (!stream.hasNext()) { // Is this actually necessary?
+            throw new SyntaxErrorException("Unexpected end of input");
+        }
         Token token = stream.peek();
         stream.consume(); // We should always be able to consume the token, right?.
         if (token.getType() == TokenType.IDENTIFIER)

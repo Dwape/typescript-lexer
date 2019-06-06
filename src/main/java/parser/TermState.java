@@ -20,7 +20,7 @@ public class TermState implements ParserState{
     public TermNode parse(TokenStream stream) {
         // If the stream is empty, let's just return the buffer
         if (!stream.hasNext()) { // Is this actually necessary?
-            return buffer;
+            throw new SyntaxErrorException("Unexpected end of input");
         }
         // If there is nothing in the buffer, we must read the next stream token.
         // This token could be three things, a number, an identifier or a string.

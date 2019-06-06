@@ -21,6 +21,9 @@ public class ExpressionState implements ParserState {
     @Override
     public ExpressionNode parse(TokenStream stream) {
 
+        if (!stream.hasNext()) { // Is this actually necessary?
+            throw new SyntaxErrorException("Unexpected end of input");
+        }
         // If there is nothing in the buffer, we must read the next stream token.
         // This token could be three things, a number, an identifier or a string.
         if (buffer == null) {

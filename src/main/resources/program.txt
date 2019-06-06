@@ -1,2 +1,5 @@
-let a : string = 'hu';
-let b: number =4
+let nice: number = 3;
+print(nice);
+nice = 5;
+print(nice);
+nice = "hello";
