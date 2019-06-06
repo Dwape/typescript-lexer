@@ -14,7 +14,7 @@ public class MultiplicationNode implements TermNode{
     }
 
     @Override
-    public void visit(NodeVisitor visitor) {
+    public void accept(NodeVisitor visitor) {
         visitor.visitMultiplicationNode(this);
     }
 

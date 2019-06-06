@@ -15,7 +15,7 @@ public class IdentifierNode implements LiteralNode{
     }
 
     @Override
-    public void visit(NodeVisitor visitor) {
+    public void accept(NodeVisitor visitor) {
         visitor.visitIdentifierNode(this);
     }
 }

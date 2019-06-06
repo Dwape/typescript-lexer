@@ -14,7 +14,7 @@ public class AssignmentNode implements StatementNode {
     }
 
     @Override
-    public void visit(NodeVisitor visitor) {
+    public void accept(NodeVisitor visitor) {
         visitor.visitAssignmentNode(this);
     }
 

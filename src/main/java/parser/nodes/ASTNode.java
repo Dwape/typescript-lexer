@@ -6,5 +6,5 @@ import parser.NodeVisitor;
 // Should there be different node types for each Language Element type?
 public interface ASTNode {
 
-    void visit(NodeVisitor visitor);
+    void accept(NodeVisitor visitor);
 }

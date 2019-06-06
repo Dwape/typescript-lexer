@@ -4,5 +4,5 @@ import parser.NodeVisitor;
 
 public interface LiteralNode extends ASTNode{
 
-    void visit(NodeVisitor visitor);
+    void accept(NodeVisitor visitor);
 }

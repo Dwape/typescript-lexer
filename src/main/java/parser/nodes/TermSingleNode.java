@@ -11,7 +11,7 @@ public class TermSingleNode implements TermNode {
     }
 
     @Override
-    public void visit(NodeVisitor visitor) {
+    public void accept(NodeVisitor visitor) {
         visitor.visitTermSingleNode(this);
     }
 

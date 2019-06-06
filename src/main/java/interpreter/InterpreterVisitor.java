@@ -24,14 +24,14 @@ public class InterpreterVisitor implements NodeVisitor {
     }
 
     public void start(ASTNode node) {
-        node.visit(this);
+        node.accept(this);
     }
 
     @Override
     public void visitAdditionNode(AdditionNode node) {
         // This is repeated many times, how can we generalize it?
-        node.getRight().visit(this);
-        node.getLeft().visit(this);
+        node.getRight().accept(this);
+        node.getLeft().accept(this);
         Variable value1 = magicStack.pop();
         Variable value2 = magicStack.pop();
 
@@ -40,7 +40,7 @@ public class InterpreterVisitor implements NodeVisitor {
 
     @Override
     public void visitAssignmentNode(AssignmentNode node) {
-        node.getExpression().visit(this);
+        node.getExpression().accept(this);
         String name = node.getIdentifier().getName();
         if (!context.containsKey(name)) {
             // throw an exception
@@ -62,7 +62,7 @@ public class InterpreterVisitor implements NodeVisitor {
 
     @Override
     public void visitDeclareAssignNode(DeclareAssignNode node) {
-        node.getExpression().visit(this);
+        node.getExpression().accept(this);
         String name = node.getIdentifier().getName();
         // We need to check if it already exists.
         if (context.containsKey(name)) {
@@ -100,8 +100,8 @@ public class InterpreterVisitor implements NodeVisitor {
 
     @Override
     public void visitDivisionNode(DivisionNode node) {
-        node.getRight().visit(this);
-        node.getLeft().visit(this);
+        node.getRight().accept(this);
+        node.getLeft().accept(this);
         Variable value1 = magicStack.pop();
         Variable value2 = magicStack.pop();
 
@@ -110,7 +110,7 @@ public class InterpreterVisitor implements NodeVisitor {
 
     @Override
     public void visitExpressionSingleNode(ExpressionSingleNode node) {
-        node.getTerm().visit(this);
+        node.getTerm().accept(this);
     }
 
     @Override
@@ -127,8 +127,8 @@ public class InterpreterVisitor implements NodeVisitor {
 
     @Override
     public void visitMultiplicationNode(MultiplicationNode node) {
-        node.getRight().visit(this);
-        node.getLeft().visit(this);
+        node.getRight().accept(this);
+        node.getLeft().accept(this);
         Variable value1 = magicStack.pop();
         Variable value2 = magicStack.pop();
 
@@ -146,7 +146,7 @@ public class InterpreterVisitor implements NodeVisitor {
     @Override
     public void visitPrintNode(PrintNode node) {
         // We need the expression to be saved somewhere.
-        node.getExpression().visit(this);
+        node.getExpression().accept(this);
         // We print after we are sure the value is in the "stack"
         String value = magicStack.pop().getValue(); // When used, we should remove it.
         output.output(value);
@@ -160,8 +160,8 @@ public class InterpreterVisitor implements NodeVisitor {
 
     @Override
     public void visitSubtractionNode(SubtractionNode node) {
-        node.getRight().visit(this);
-        node.getLeft().visit(this);
+        node.getRight().accept(this);
+        node.getLeft().accept(this);
         Variable value1 = magicStack.pop();
         Variable value2 = magicStack.pop();
 
@@ -170,7 +170,7 @@ public class InterpreterVisitor implements NodeVisitor {
 
     @Override
     public void visitTermSingleNode(TermSingleNode node) {
-        node.getTerm().visit(this);
+        node.getTerm().accept(this);
     }
 
     @Override
@@ -178,7 +178,7 @@ public class InterpreterVisitor implements NodeVisitor {
         // Visit all statements, in order
         List<StatementNode> statements = node.getStatements();
         for (StatementNode statement : statements) {
-            statement.visit(this);
+            statement.accept(this);
         }
     }
 }

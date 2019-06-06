@@ -14,7 +14,7 @@ public class DeclareNode implements DeclarationNode {
     }
 
     @Override
-    public void visit(NodeVisitor visitor) {
+    public void accept(NodeVisitor visitor) {
         visitor.visitDeclareNode(this);
     }
 

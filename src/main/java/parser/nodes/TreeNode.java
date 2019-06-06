@@ -22,7 +22,7 @@ public class TreeNode implements ProgramNode{
     }
 
     @Override
-    public void visit(NodeVisitor visitor) {
+    public void accept(NodeVisitor visitor) {
         visitor.visitTreeNode(this);
     }
 

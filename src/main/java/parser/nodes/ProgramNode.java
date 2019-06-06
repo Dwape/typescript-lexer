@@ -6,5 +6,5 @@ public interface ProgramNode extends ASTNode {
 
     public void addStatement(StatementNode node);
 
-    void visit(NodeVisitor visitor);
+    void accept(NodeVisitor visitor);
 }

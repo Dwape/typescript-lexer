@@ -11,7 +11,7 @@ public class ExpressionSingleNode implements ExpressionNode {
     }
 
     @Override
-    public void visit(NodeVisitor visitor) {
+    public void accept(NodeVisitor visitor) {
         visitor.visitExpressionSingleNode(this);
     }
 

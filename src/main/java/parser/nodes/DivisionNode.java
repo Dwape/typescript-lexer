@@ -14,7 +14,7 @@ public class DivisionNode implements TermNode{
     }
 
     @Override
-    public void visit(NodeVisitor visitor) {
+    public void accept(NodeVisitor visitor) {
         visitor.visitDivisionNode(this);
     }
 

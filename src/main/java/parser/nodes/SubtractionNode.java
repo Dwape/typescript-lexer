@@ -14,7 +14,7 @@ public class SubtractionNode implements ExpressionNode {
     }
 
     @Override
-    public void visit(NodeVisitor visitor) {
+    public void accept(NodeVisitor visitor) {
         visitor.visitSubtractionNode(this);
     }
 

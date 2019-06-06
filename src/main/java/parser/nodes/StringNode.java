@@ -15,7 +15,7 @@ public class StringNode implements LiteralNode{
     }
 
     @Override
-    public void visit(NodeVisitor visitor) {
+    public void accept(NodeVisitor visitor) {
         visitor.visitStringNode(this);
     }
 }
