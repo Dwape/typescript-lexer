@@ -21,10 +21,12 @@ public class InterpreterVisitor implements NodeVisitor {
     // Using variables could be better
     private Stack<Variable> magicStack; // Change this name
     private Map<String, Variable> context; // This holds all the variables.
+    private VariableFactory factory;
 
     public InterpreterVisitor() {
         this.magicStack = new Stack<>();
         this.context = new HashMap<>();
+        this.factory = new VariableFactory();
     }
 
     public void start(ASTNode node) {
@@ -59,12 +61,7 @@ public class InterpreterVisitor implements NodeVisitor {
             // throw an exception
             throw new TypeError(); // We could add some text here (to say which variable failed).
         }
-        // We know the type, so we should create a variable depending on the type.
-        if (newVariable.getType().equals("number")) {
-            variable = new NumberVariable(newVariable.getValue());
-        } else {
-            variable = new StringVariable(newVariable.getValue());
-        }
+        variable = factory.createVariable(newVariable.getValue(), newVariable.getType());
 
         context.put(name, variable);
     }
@@ -81,12 +78,8 @@ public class InterpreterVisitor implements NodeVisitor {
             // throw an exception
             throw new TypeError(); // We could add some text here (to say which variable failed).
         }
-        // Adding more overhead here that could be removed.
-        if (newVariable.getType().equals("number")) {
-            variable = new NumberVariable(newVariable.getValue());
-        } else {
-            variable = new StringVariable(newVariable.getValue());
-        }
+        variable = factory.createVariable(newVariable.getValue(), newVariable.getType());
+
         context.put(name, variable);
     }
 
@@ -98,18 +91,10 @@ public class InterpreterVisitor implements NodeVisitor {
 
         Variable variable;
         if (magicStack.isEmpty()) {
-            if (node.getType().equals("number")) {
-                variable = new NumberVariable(null);
-            } else {
-                variable = new StringVariable(null);
-            }
+            variable = factory.createVariable(null, node.getType());
         } else {
             Variable value = magicStack.pop();
-            if (node.getType().equals("number")) {
-                variable = new NumberVariable(value.getValue());
-            } else {
-                variable = new StringVariable(value.getValue());
-            }
+            variable = factory.createVariable(value.getValue(), node.getType());
         }
         // It doesn't have a value!
         // What should happen?
