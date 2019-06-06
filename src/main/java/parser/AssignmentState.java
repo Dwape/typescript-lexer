@@ -1,6 +1,7 @@
 package parser;
 
 import lexer.token.Token;
+import lexer.token.TokenPosition;
 import lexer.token.TokenStream;
 import lexer.token.TokenType;
 import parser.nodes.AssignmentNode;
@@ -37,7 +38,8 @@ public class AssignmentState implements ParserState{
     private Token checkTokenType(TokenStream stream, TokenType type) {
         Token token = stream.peek();
         if (token.getType() != type) {
-            throw new SyntaxErrorException();
+            TokenPosition position = token.getPosition();
+            throw new SyntaxErrorException(String.format("Syntax error at (%d,%d), unexpected token %s", position.getCharStart(), position.getLine(), token.getContent()));
         }
         stream.consume();
         return token;

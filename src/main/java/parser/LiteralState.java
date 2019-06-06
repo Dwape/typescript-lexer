@@ -1,6 +1,7 @@
 package parser;
 
 import lexer.token.Token;
+import lexer.token.TokenPosition;
 import lexer.token.TokenStream;
 import lexer.token.TokenType;
 import parser.nodes.IdentifierNode;
@@ -23,6 +24,7 @@ public class LiteralState implements ParserState {
         if (token.getType() == TokenType.NUMBER)
             return new NumberNode(token.getContent());
         // Something went horribly wrong, throw an exception.
-        throw new SyntaxErrorException();
+        TokenPosition position = token.getPosition();
+        throw new SyntaxErrorException(String.format("Syntax error at (%d,%d), unexpected token %s", position.getCharStart(), position.getLine(), token.getContent()));
     }
 }

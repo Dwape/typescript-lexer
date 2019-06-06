@@ -1,6 +1,7 @@
 package parser;
 
 import lexer.token.Token;
+import lexer.token.TokenPosition;
 import lexer.token.TokenStream;
 import lexer.token.TokenType;
 import parser.nodes.ProgramNode;
@@ -41,7 +42,10 @@ public class ProgramState implements ParserState {
         if (token.getType() == TokenType.PRINT) node = print.parse(stream);
         else if (token.getType() == TokenType.LET) node = declaration.parse(stream);
         else if (token.getType() == TokenType.IDENTIFIER) node = assignment.parse(stream);
-        else throw new SyntaxErrorException();
+        else {
+            TokenPosition position = token.getPosition();
+            throw new SyntaxErrorException(String.format("Syntax error at (%d,%d), unexpected token %s", position.getCharStart(), position.getLine(), token.getContent()));
+        }
 
         buffer.addStatement(node);
         return parse(stream);

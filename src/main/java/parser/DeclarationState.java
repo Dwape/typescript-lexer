@@ -1,6 +1,7 @@
 package parser;
 
 import lexer.token.Token;
+import lexer.token.TokenPosition;
 import lexer.token.TokenStream;
 import lexer.token.TokenType;
 import parser.nodes.*;
@@ -49,7 +50,8 @@ public class DeclarationState implements ParserState {
     private Token checkTokenType(TokenStream stream, TokenType type) {
         Token token = stream.peek();
         if (token.getType() != type) {
-            throw new SyntaxErrorException();
+            TokenPosition position = token.getPosition();
+            throw new SyntaxErrorException(String.format("Syntax error at (%d,%d), unexpected token %s", position.getCharStart(), position.getLine(), token.getContent()));
         }
         stream.consume();
         return token;
@@ -59,7 +61,8 @@ public class DeclarationState implements ParserState {
     private Token checkTwoTypes(TokenStream stream, TokenType type1, TokenType type2) {
         Token token = stream.peek();
         if (token.getType() != type1 && token.getType() != type2) {
-            throw new SyntaxErrorException();
+            TokenPosition position = token.getPosition();
+            throw new SyntaxErrorException(String.format("Syntax error at (%d,%d), unexpected token %s", position.getCharStart(), position.getLine(), token.getContent()));
         }
         stream.consume();
         return token;
@@ -70,7 +73,8 @@ public class DeclarationState implements ParserState {
             return "number";
         if (token.getType() == TokenType.STRING_TYPE)
             return "string";
-        throw new SyntaxErrorException(); // This shouldn't happen, but just in case.
+        TokenPosition position = token.getPosition();
+        throw new SyntaxErrorException(String.format("Syntax error at (%d,%d), unexpected token %s", position.getCharStart(), position.getLine(), token.getContent()));
     }
 
     private boolean endOfElement(TokenStream stream) {
