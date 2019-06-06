@@ -16,5 +16,6 @@ public enum TokenType {
     RIGHT_PARENTHESIS,
     EQUALS,
     COLON,
-    SEMI_COLON
+    SEMI_COLON,
+    INVALID // This might not be necessary.
 }

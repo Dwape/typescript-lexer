@@ -1,8 +1,6 @@
 package lexer;
 
-import lexer.token.Token;
-import lexer.token.TokenStream;
-import lexer.token.TypeScriptTokenStream;
+import lexer.token.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +38,19 @@ public class TokenLexer implements Lexer {
             // Equal state to the next state, returned by process character
             char character = stream.peek();
 
-            StateResponse response = state.processCharacter(stream.peek());
+            StateResponse response;
+
+            try {
+                response = state.processCharacter(stream.peek());
+            } catch (InvalidInputException exception) {
+                // What should we return here?
+                // We could have an invalid token to be honest.
+                Token invalidToken = new TypeScriptToken("", TokenType.INVALID);
+                locator.addLocation(invalidToken);
+                int tokenChar = invalidToken.getPosition().getCharStart();
+                int tokenLine = invalidToken.getPosition().getLine();
+                throw new InvalidInputException("Invalid token at (" + tokenChar + "," + tokenLine + ")");
+            }
 
             if (response.consumedChar()) {
                 locator.nextChar(character); // Only if we consumed the character.

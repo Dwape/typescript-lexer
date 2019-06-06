@@ -92,6 +92,7 @@ public class InterpreterVisitor implements NodeVisitor {
         // Sometimes there is no value in the stack.
 
         Variable variable;
+        // Why checking if it is empty?
         if (magicStack.isEmpty()) {
             variable = factory.createVariable(null, node.getType());
         } else {
