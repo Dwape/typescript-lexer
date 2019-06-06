@@ -20,7 +20,7 @@ public class SpaceState implements LexerState {
         LexerState stringState = new StringState(this);
         LexerState numberState = new NumberState(this);
         // Add all the transitions to the other states.
-        addTransition(identifierState, new OneCharacterRegex("[a-zA-Z]")); // it must start with a letter.
+        addTransition(identifierState, new OneCharacterRegex("[a-zA-Z_]")); // it must start with a letter.
         addTransition(delimiterState, new OneCharacterRegex(";|:|\\(|\\)|=|\\+|-|\\*|\\/"));
         addTransition(stringState, new OneCharacterRegex("\"|'"));
         addTransition(numberState, new OneCharacterRegex("[0-9]|\\.")); // We accept .

@@ -1,5 +1,11 @@
 let nice: number = 3;
 print(nice);
-nice = 5;
+let _ni__ce_: string = 'hello';
 print(nice);
-nice = "hello";
+let google: string = nice + 'hey';
+print(google);
+let result: number = 4*3*4/3+3-1*5;
+print(result);
+let tt: number = 12222;
+print(tt);
+print(_ni__ce_);
