@@ -22,7 +22,7 @@ public class NumberState implements LexerState{
         this.state = state;
         this.buffer = ""; // Buffer starts empty.
         // It might be better for this regex to be provided by someone else, so that it can change.
-        this.delimiterChecker = new OneCharacterRegex(" |\n|;|:|\\(|\\)|=|\\+|-|\\*|\\/");
+        this.delimiterChecker = new OneCharacterRegex(" |\n|;|:|\\(|\\)|=|\\+|-|\\*|\\/|\\$");
         this.allowedChecker = new OneCharacterRegex("[0-9]");
         this.decimalChecker = new OneCharacterRegex("\\.");
         this.isDecimal = false;

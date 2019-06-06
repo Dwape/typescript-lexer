@@ -33,6 +33,9 @@ public class TokenLexer implements Lexer {
 
         // These other states could be created in the initial state, easily.
 
+        // Add an end of file symbol that is consumed but there is no token created.
+        stream.append('$'); // EOF chosen symbol.
+
         while(stream.hasNext()) {
             // Equal state to the next state, returned by process character
             char character = stream.peek();

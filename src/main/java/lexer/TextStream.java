@@ -21,4 +21,9 @@ public class TextStream implements InputStream{
     public boolean hasNext() {
         return this.pointer < this.text.length();
     }
+
+    @Override
+    public void append(char character) {
+        text += character;
+    }
 }

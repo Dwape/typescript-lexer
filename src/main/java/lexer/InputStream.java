@@ -8,4 +8,7 @@ public interface InputStream {
     public void consume();
 
     public boolean hasNext();
+
+    // appends a character at the end of the stream.
+    void append(char character);
 }

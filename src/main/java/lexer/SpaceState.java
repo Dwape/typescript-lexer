@@ -13,7 +13,7 @@ public class SpaceState implements LexerState {
 
     public SpaceState() {
         this.transitions = new HashMap<>();
-        this.ignoreChecker = new OneCharacterRegex(" |\n"); // Check if the regex is correct
+        this.ignoreChecker = new OneCharacterRegex(" |\n|\\$"); // Check if the regex is correct
         // Create all the states.
         LexerState identifierState = new IdentifierState(this);
         LexerState delimiterState = new DelimiterState(this);

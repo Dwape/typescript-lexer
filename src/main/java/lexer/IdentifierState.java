@@ -23,7 +23,7 @@ public class IdentifierState implements LexerState {
         // How do we know if we are the first character?
         // What a good question
         this.allowedChecker = new OneCharacterRegex("[0-9a-zA-Z]");
-        this.delimiterChecker = new OneCharacterRegex(" |\n|;|:|\\(|\\)|=|\\+|-|\\*|\\/"); // Should this regex be provided by someone else?
+        this.delimiterChecker = new OneCharacterRegex(" |\n|;|:|\\(|\\)|=|\\+|-|\\*|\\/|\\$"); // Should this regex be provided by someone else?
         this.state = state;
         this.keywordChecker = new KeywordChecker();
         this.buffer = ""; // If this really necessary?
