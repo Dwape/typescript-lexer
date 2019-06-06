@@ -22,11 +22,13 @@ public class InterpreterVisitor implements NodeVisitor {
     private Stack<Variable> magicStack; // Change this name
     private Map<String, Variable> context; // This holds all the variables.
     private VariableFactory factory;
+    private Output output;
 
     public InterpreterVisitor() {
         this.magicStack = new Stack<>();
         this.context = new HashMap<>();
         this.factory = new VariableFactory();
+        this.output = new Console();
     }
 
     public void start(ASTNode node) {
@@ -156,7 +158,7 @@ public class InterpreterVisitor implements NodeVisitor {
         node.getExpression().visit(this);
         // We print after we are sure the value is in the "stack"
         String value = magicStack.pop().getValue(); // When used, we should remove it.
-        System.out.println(value);
+        output.output(value);
     }
 
     @Override
