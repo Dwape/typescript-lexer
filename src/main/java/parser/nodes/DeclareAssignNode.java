@@ -1,7 +1,5 @@
 package parser.nodes;
 
-import parser.NodeVisitor;
-
 public class DeclareAssignNode implements DeclarationNode {
 
     private ExpressionNode expression;

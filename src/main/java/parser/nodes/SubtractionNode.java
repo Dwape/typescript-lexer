@@ -1,7 +1,5 @@
 package parser.nodes;
 
-import parser.NodeVisitor;
-
 public class SubtractionNode implements ExpressionNode {
 
     private ExpressionNode left; // This value can be null

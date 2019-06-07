@@ -1,7 +1,5 @@
 package parser.nodes;
 
-import parser.NodeVisitor;
-
 import java.util.ArrayList;
 import java.util.List;
 

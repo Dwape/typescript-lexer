@@ -1,7 +1,5 @@
 package parser.nodes;
 
-import parser.NodeVisitor;
-
 public class DivisionNode implements TermNode{
 
     private TermNode left; // This value can be null

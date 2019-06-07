@@ -1,7 +1,5 @@
 package parser.nodes;
 
-import parser.NodeVisitor;
-
 public class DeclareNode implements DeclarationNode {
 
     private IdentifierNode identifier;

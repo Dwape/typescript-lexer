@@ -1,6 +1,5 @@
 package interpreter;
 
-import parser.NodeVisitor;
 import parser.nodes.ASTNode;
 
 public class TypeScriptInterpreter implements Interpreter {

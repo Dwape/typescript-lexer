@@ -9,3 +9,5 @@ print(result);
 let tt: number = 12222;
 print(tt);
 print(_ni__ce_);
+let try: number = 12;
+print(try/3);

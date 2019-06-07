@@ -1,7 +1,5 @@
 package parser.nodes;
 
-import parser.NodeVisitor;
-
 public class ExpressionSingleNode implements ExpressionNode {
 
     private TermNode term;

@@ -1,7 +1,5 @@
 package parser.nodes;
 
-import parser.NodeVisitor;
-
 public class StringNode implements LiteralNode{
 
     private String value;

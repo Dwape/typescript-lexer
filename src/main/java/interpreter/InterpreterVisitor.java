@@ -1,6 +1,6 @@
 package interpreter;
 
-import parser.NodeVisitor;
+import parser.nodes.NodeVisitor;
 import parser.nodes.*;
 
 import java.util.HashMap;
@@ -11,13 +11,13 @@ import java.util.Stack;
 public class InterpreterVisitor implements NodeVisitor {
 
     // Using variables could be better
-    private Stack<Variable> magicStack; // Change this name
+    private Stack<Variable> stack; // Change this name
     private Map<String, Variable> context; // This holds all the variables.
     private VariableFactory factory;
     private Output output;
 
     public InterpreterVisitor() {
-        this.magicStack = new Stack<>();
+        this.stack = new Stack<>();
         this.context = new HashMap<>();
         this.factory = new VariableFactory();
         this.output = new Console();
@@ -32,10 +32,10 @@ public class InterpreterVisitor implements NodeVisitor {
         // This is repeated many times, how can we generalize it?
         node.getRight().accept(this);
         node.getLeft().accept(this);
-        Variable value1 = magicStack.pop();
-        Variable value2 = magicStack.pop();
+        Variable value1 = stack.pop();
+        Variable value2 = stack.pop();
 
-        magicStack.push(value1.add(value2));
+        stack.push(value1.add(value2));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class InterpreterVisitor implements NodeVisitor {
             // For example, ${name} is not defined.
         }
         Variable variable = context.get(name);
-        Variable newVariable = magicStack.pop();
+        Variable newVariable = stack.pop();
         // Type checking
         if (!newVariable.getType().equals(variable.getType())) {
             // throw an exception
@@ -69,7 +69,7 @@ public class InterpreterVisitor implements NodeVisitor {
             throw new ReferenceError(String.format("%s is already defined", name));
         }
         // We need to check if we are referencing a variable that exists.
-        Variable newVariable = magicStack.pop();
+        Variable newVariable = stack.pop();
         Variable variable;
         // Can this type checking be done in a better way?
         if (!newVariable.getType().equals(node.getType())) {
@@ -102,10 +102,10 @@ public class InterpreterVisitor implements NodeVisitor {
     public void visitDivisionNode(DivisionNode node) {
         node.getRight().accept(this);
         node.getLeft().accept(this);
-        Variable value1 = magicStack.pop();
-        Variable value2 = magicStack.pop();
+        Variable value1 = stack.pop();
+        Variable value2 = stack.pop();
 
-        magicStack.push(value1.divide(value2));
+        stack.push(value1.divide(value2));
     }
 
     @Override
@@ -122,23 +122,23 @@ public class InterpreterVisitor implements NodeVisitor {
         }
         Variable variable = context.get(name);
         // This might be null, exception.
-        magicStack.push(variable);
+        stack.push(variable);
     }
 
     @Override
     public void visitMultiplicationNode(MultiplicationNode node) {
         node.getRight().accept(this);
         node.getLeft().accept(this);
-        Variable value1 = magicStack.pop();
-        Variable value2 = magicStack.pop();
+        Variable value1 = stack.pop();
+        Variable value2 = stack.pop();
 
-        magicStack.push(value1.multiply(value2));
+        stack.push(value1.multiply(value2));
     }
 
     @Override
     public void visitNumberNode(NumberNode node) {
         Variable variable = new NumberVariable(node.getValue());
-        magicStack.push(variable);
+        stack.push(variable);
     }
 
     // It will probably be a good idea to create an abstraction for the console.
@@ -148,24 +148,24 @@ public class InterpreterVisitor implements NodeVisitor {
         // We need the expression to be saved somewhere.
         node.getExpression().accept(this);
         // We print after we are sure the value is in the "stack"
-        String value = magicStack.pop().getValue(); // When used, we should remove it.
+        String value = stack.pop().getValue(); // When used, we should remove it.
         output.output(value);
     }
 
     @Override
     public void visitStringNode(StringNode node) {
         Variable variable = new StringVariable(node.getValue());
-        magicStack.push(variable);
+        stack.push(variable);
     }
 
     @Override
     public void visitSubtractionNode(SubtractionNode node) {
         node.getRight().accept(this);
         node.getLeft().accept(this);
-        Variable value1 = magicStack.pop();
-        Variable value2 = magicStack.pop();
+        Variable value1 = stack.pop();
+        Variable value2 = stack.pop();
 
-        magicStack.push(value1.subtract(value2));
+        stack.push(value1.subtract(value2));
     }
 
     @Override

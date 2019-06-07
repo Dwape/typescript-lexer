@@ -1,7 +1,5 @@
 package parser.nodes;
 
-import parser.NodeVisitor;
-
 public class IdentifierNode implements LiteralNode{
 
     private String name;
