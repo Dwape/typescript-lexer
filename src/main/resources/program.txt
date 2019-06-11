@@ -1,4 +1,4 @@
-let nice: number = 3;
+let nice: string = 3;
 print(nice);
 let _ni__ce_: string = 'hello';
 print(nice);
@@ -9,5 +9,5 @@ print(result);
 let tt: number = 12222;
 print(tt);
 print(_ni__ce_);
-let try: number = 12;
+let try: string = 12;
 print(try/3);

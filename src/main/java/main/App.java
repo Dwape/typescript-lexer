@@ -1,13 +1,13 @@
 package main;
 
 import interpreter.Interpreter;
+import interpreter.ReferenceError;
+import interpreter.TypeError;
 import interpreter.TypeScriptInterpreter;
-import lexer.InputStream;
-import lexer.Lexer;
-import lexer.TextStream;
-import lexer.TokenLexer;
+import lexer.*;
 import lexer.token.TokenStream;
 import parser.Parser;
+import parser.SyntaxErrorException;
 import parser.TypeScriptParser;
 import parser.nodes.ASTNode;
 
@@ -28,15 +28,26 @@ public class App {
             return;
         }
 
-        InputStream stream = new TextStream(text);
+        try {
+            InputStream stream = new TextStream(text);
 
-        TokenStream output = lexer.lex(stream);
+            TokenStream output = lexer.lex(stream);
 
-        Parser parser = new TypeScriptParser();
-        ASTNode node = parser.parse(output);
+            Parser parser = new TypeScriptParser();
+            ASTNode node = parser.parse(output);
 
-        Interpreter interpreter = new TypeScriptInterpreter();
-        interpreter.interpret(node);
+            Interpreter interpreter = new TypeScriptInterpreter();
+            interpreter.interpret(node);
+        } catch (InvalidInputException error) {
+            System.out.println(String.format("Invalid input: %s", error.getMessage()));
+        } catch (SyntaxErrorException error) {
+            System.out.println(String.format("Syntax error: %s", error.getMessage()));
+        } catch (ReferenceError error) {
+            System.out.println(String.format("Reference error: %s", error.getMessage()));
+        } catch (TypeError error) {
+            System.out.println(String.format("Type error: %s", error.getMessage()));
+        }
+
     }
 
     private static String readFile(String[] args) throws IOException {
